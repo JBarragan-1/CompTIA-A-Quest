@@ -1,0 +1,2669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CompTIA A+ Quest V15 — 8-Week Study Game (220-1201 + 220-1202)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Reset & Base ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0f;
+    --panel: #13131c;
+    --panel-2: #1a1a26;
+    --border: #262635;
+    --border-soft: #1f1f2c;
+    --text: #e8e8f0;
+    --text-dim: #9090a8;
+    --text-mute: #5a5a72;
+    --core1: #7c6af7;     /* purple - Core 1 */
+    --core2: #2dd4a0;     /* teal - Core 2 */
+    --warn: #f5a623;      /* amber - tips */
+    --sec: #f06060;       /* coral - security */
+    --trouble: #4da6ff;   /* blue - troubleshooting */
+    --success: #2dd4a0;
+    --xp: #f5a623;
+    --shadow: 0 1px 0 rgba(255,255,255,0.03), 0 4px 20px rgba(0,0,0,0.4);
+  }
+  html, body { background: var(--bg); color: var(--text); font-family: 'Sora', system-ui, sans-serif; line-height: 1.5; min-height: 100vh; }
+  body { padding-bottom: 80px; }
+  code, .mono { font-family: 'Space Mono', 'Courier New', monospace; }
+  a { color: var(--core1); text-decoration: none; border-bottom: 1px dashed rgba(124,106,247,0.4); }
+  a:hover { color: #9d8eff; border-bottom-color: var(--core1); }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  button:disabled { cursor: not-allowed; opacity: 0.5; }
+
+  /* ---------- Layout ---------- */
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+  /* ---------- Header / HUD ---------- */
+  header.hud {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10, 10, 15, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .hud-inner {
+    max-width: 1200px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 18px;
+    letter-spacing: -0.5px;
+  }
+  .brand .logo {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--core1), var(--core2));
+    display: grid; place-items: center;
+    color: #0a0a0f; font-weight: 800; font-size: 16px;
+  }
+  .brand .name { color: var(--text); }
+  .brand .plus { color: var(--core1); }
+  .hud-stats { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-left: auto; }
+  .stat {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 999px; font-size: 13px;
+  }
+  .stat .label { color: var(--text-dim); font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat .value { font-weight: 600; }
+  .stat.xp .value { color: var(--xp); }
+  .stat.level .value { color: var(--core1); }
+  .stat.streak .value { color: var(--sec); }
+  .level-badge { display: inline-flex; align-items: center; gap: 6px; }
+
+  /* Progress bar in HUD */
+  .level-progress {
+    width: 100%; max-width: 100%; height: 6px; background: var(--panel-2);
+    border-radius: 999px; overflow: hidden; margin-top: 4px;
+  }
+  .level-progress .fill {
+    height: 100%; background: linear-gradient(90deg, var(--core1), var(--core2));
+    transition: width 0.4s ease;
+  }
+
+  /* ---------- Hero / Welcome ---------- */
+  .hero {
+    background: linear-gradient(180deg, var(--panel) 0%, var(--bg) 100%);
+    border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 24px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -100px; right: -100px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(124,106,247,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -1.5px;
+    line-height: 1.1; margin-bottom: 12px;
+  }
+  .hero h1 .accent { color: var(--core1); }
+  .hero h1 .accent2 { color: var(--core2); }
+  .hero p.tagline { color: var(--text-dim); font-size: 16px; max-width: 640px; margin-bottom: 20px; }
+  .hero .meta-row { display: flex; gap: 12px; flex-wrap: wrap; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-mute); }
+  .hero .meta-row span::before { content: '▸ '; color: var(--core1); }
+
+  /* ---------- Section blocks ---------- */
+  .section {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px; margin-bottom: 20px;
+  }
+  .section h2 {
+    font-size: 20px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section h2 .icon { font-size: 22px; }
+  .section h3 { font-size: 16px; font-weight: 600; margin: 16px 0 10px; color: var(--text); }
+  .section p { color: var(--text-dim); margin-bottom: 12px; }
+
+  /* ---------- Streak ---------- */
+  .streak-row {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 14px 18px; background: var(--panel-2); border-radius: 10px;
+    border: 1px solid var(--border-soft);
+  }
+  .streak-stars { display: flex; gap: 6px; }
+  .star {
+    width: 28px; height: 28px; display: grid; place-items: center;
+    border-radius: 50%; background: var(--panel); color: var(--text-mute);
+    border: 1px solid var(--border); font-size: 14px; transition: all 0.3s;
+  }
+  .star.lit { background: var(--sec); color: #fff; border-color: var(--sec); box-shadow: 0 0 12px rgba(240,96,96,0.5); }
+  .streak-info .label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.5px; }
+  .streak-info .value { font-size: 18px; font-weight: 700; color: var(--text); }
+
+  /* ---------- Exam date picker ---------- */
+  .date-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .date-grid { grid-template-columns: 1fr; } }
+  .date-card {
+    padding: 18px; background: var(--panel-2); border: 1px solid var(--border-soft);
+    border-radius: 10px;
+  }
+  .date-card.core1 { border-left: 3px solid var(--core1); }
+  .date-card.core2 { border-left: 3px solid var(--core2); }
+  .date-card label { display: block; font-size: 12px; font-family: 'Space Mono', monospace; color: var(--text-mute); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .date-card .exam-name { font-weight: 700; font-size: 16px; margin-bottom: 6px; }
+  .date-card.core1 .exam-name { color: var(--core1); }
+  .date-card.core2 .exam-name { color: var(--core2); }
+  .date-card input[type="date"] {
+    width: 100%; padding: 10px 12px; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-family: 'Space Mono', monospace; font-size: 14px;
+    color-scheme: dark;
+  }
+  .date-card .countdown {
+    margin-top: 10px; font-family: 'Space Mono', monospace; font-size: 13px; color: var(--text-dim);
+  }
+  .date-card .countdown strong { color: var(--text); font-size: 18px; }
+
+  /* ---------- Week pills ---------- */
+  .week-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--border-soft);
+  }
+  .week-pill {
+    padding: 8px 14px; background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 999px; font-size: 13px; font-family: 'Space Mono', monospace;
+    color: var(--text-dim); transition: all 0.2s;
+  }
+  .week-pill:hover { color: var(--text); border-color: var(--core1); }
+  .week-pill.active { background: var(--core1); color: #0a0a0f; border-color: var(--core1); font-weight: 700; }
+
+  /* ---------- Day cards ---------- */
+  .day-list { display: flex; flex-direction: column; gap: 14px; }
+  .day {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; transition: border-color 0.2s;
+  }
+  .day.complete { border-color: rgba(45,212,160,0.3); }
+  .day.core1 { border-left: 3px solid var(--core1); }
+  .day.core2 { border-left: 3px solid var(--core2); }
+  .day-header {
+    padding: 16px 20px; display: flex; align-items: center; gap: 14px;
+    cursor: pointer; user-select: none;
+  }
+  .day-header:hover { background: var(--panel-2); }
+  .day-num {
+    flex-shrink: 0; width: 44px; height: 44px; border-radius: 10px;
+    background: var(--panel-2); display: grid; place-items: center;
+    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 14px;
+    border: 1px solid var(--border);
+  }
+  .day.core1 .day-num { color: var(--core1); }
+  .day.core2 .day-num { color: var(--core2); }
+  .day.complete .day-num { background: var(--success); color: #0a0a0f; border-color: var(--success); }
+  .day-info { flex: 1; min-width: 0; }
+  .day-title { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+  .day-meta { font-size: 12px; font-family: 'Space Mono', monospace; color: var(--text-mute); display: flex; gap: 12px; flex-wrap: wrap; }
+  .day-meta .domain { color: var(--text-dim); }
+  .day-meta .xp-badge { color: var(--xp); }
+  .day-progress-mini {
+    flex-shrink: 0; min-width: 80px; text-align: right;
+    font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-dim);
+  }
+  .day-toggle {
+    flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center;
+    color: var(--text-mute); transition: transform 0.3s;
+  }
+  .day.expanded .day-toggle { transform: rotate(90deg); }
+  .day-body {
+    display: none; padding: 0 20px 20px; border-top: 1px solid var(--border-soft);
+  }
+  .day.expanded .day-body { display: block; }
+  .day-section { margin-top: 18px; }
+  .day-section h4 {
+    font-size: 13px; font-family: 'Space Mono', monospace; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--text-mute); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .day-section h4 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--core1); }
+  .day.core2 .day-section h4 .dot { background: var(--core2); }
+
+  /* Checklist */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .check-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 12px; background: var(--panel-2); border: 1px solid var(--border-soft);
+    border-radius: 8px; cursor: pointer; transition: all 0.15s;
+  }
+  .check-item:hover { border-color: var(--border); background: #1d1d2a; }
+  .check-item.done {
+    background: rgba(45,212,160,0.06); border-color: rgba(45,212,160,0.3);
+  }
+  .check-item.done .check-text { text-decoration: line-through; color: var(--text-mute); }
+  .checkbox {
+    flex-shrink: 0; width: 20px; height: 20px; border: 2px solid var(--border);
+    border-radius: 5px; display: grid; place-items: center; margin-top: 2px;
+    background: var(--panel); transition: all 0.15s;
+  }
+  .check-item.done .checkbox { background: var(--success); border-color: var(--success); }
+  .check-item.done .checkbox::after { content: '✓'; color: #0a0a0f; font-weight: 700; font-size: 14px; }
+  .check-text { font-size: 14px; line-height: 1.5; flex: 1; }
+  .check-xp { flex-shrink: 0; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--xp); padding-top: 2px; }
+
+  /* Key terms */
+  .terms { display: flex; flex-wrap: wrap; gap: 6px; }
+  .term {
+    padding: 5px 10px; background: rgba(124,106,247,0.12); color: #a999ff;
+    border: 1px solid rgba(124,106,247,0.3); border-radius: 999px;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+  }
+  .day.core2 .term { background: rgba(45,212,160,0.12); color: #6fe5bf; border-color: rgba(45,212,160,0.3); }
+
+  /* Review loop */
+  .review-loop {
+    padding: 12px 14px; background: rgba(245,166,35,0.08);
+    border-left: 3px solid var(--warn); border-radius: 6px;
+    font-size: 14px; color: var(--text);
+  }
+  .review-loop .label-pill {
+    display: inline-block; font-family: 'Space Mono', monospace; font-size: 10px;
+    color: var(--warn); text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 6px; font-weight: 700;
+  }
+
+  /* Resource links */
+  .resources { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .resources li { font-size: 13px; padding: 6px 0; }
+  .resources li::before { content: '◇ '; color: var(--core1); }
+  .day.core2 .resources li::before { color: var(--core2); }
+
+  /* ---------- Mini Quiz ---------- */
+  .quiz-launch {
+    margin-top: 14px; padding: 14px 16px;
+    background: linear-gradient(90deg, rgba(77,166,255,0.08), transparent);
+    border: 1px solid rgba(77,166,255,0.3); border-radius: 8px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .quiz-launch .quiz-info { flex: 1; min-width: 200px; }
+  .quiz-launch .quiz-info .lbl { font-size: 11px; font-family: 'Space Mono', monospace; color: var(--trouble); text-transform: uppercase; letter-spacing: 0.5px; }
+  .quiz-launch .quiz-info .ttl { font-weight: 600; font-size: 14px; }
+  .btn {
+    padding: 9px 18px; background: var(--core1); color: #0a0a0f;
+    border-radius: 8px; font-weight: 700; font-size: 13px;
+    font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px;
+    transition: all 0.15s;
+  }
+  .btn:hover { background: #9d8eff; transform: translateY(-1px); }
+  .btn.btn-trouble { background: var(--trouble); }
+  .btn.btn-trouble:hover { background: #71baff; }
+  .btn.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn.btn-ghost:hover { border-color: var(--core1); color: var(--core1); }
+  .btn.btn-danger { background: var(--sec); }
+
+  /* Modal */
+  .modal-backdrop {
+    display: none; position: fixed; inset: 0;
+    background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(6px);
+    z-index: 200; padding: 20px; overflow-y: auto;
+  }
+  .modal-backdrop.show { display: flex; align-items: center; justify-content: center; }
+  .modal {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .modal-header {
+    padding: 18px 22px; border-bottom: 1px solid var(--border-soft);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-header .title { font-weight: 700; font-size: 16px; }
+  .modal-close { font-size: 24px; color: var(--text-mute); padding: 4px 10px; }
+  .modal-close:hover { color: var(--text); }
+  .modal-body { padding: 22px; }
+  .quiz-q { font-size: 16px; font-weight: 600; margin-bottom: 16px; line-height: 1.4; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .quiz-opt {
+    padding: 12px 14px; background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 8px; text-align: left; font-size: 14px; cursor: pointer; transition: all 0.15s;
+  }
+  .quiz-opt:hover:not(.disabled) { border-color: var(--core1); background: #1d1d2a; }
+  .quiz-opt.correct { background: rgba(45,212,160,0.15); border-color: var(--success); color: #6fe5bf; }
+  .quiz-opt.wrong { background: rgba(240,96,96,0.15); border-color: var(--sec); color: #ff8a8a; }
+  .quiz-opt.disabled { cursor: default; }
+  .quiz-explain {
+    padding: 12px 14px; background: var(--panel-2); border-radius: 8px;
+    font-size: 13px; color: var(--text-dim); border-left: 3px solid var(--warn);
+    margin-bottom: 16px; display: none;
+  }
+  .quiz-explain.show { display: block; }
+  .quiz-explain strong { color: var(--warn); }
+  .quiz-progress {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-mute);
+    margin-bottom: 12px;
+  }
+  .quiz-actions { display: flex; gap: 10px; justify-content: flex-end; }
+  .quiz-results { text-align: center; padding: 20px 0; }
+  .quiz-results .score-num { font-size: 56px; font-weight: 800; color: var(--core1); font-family: 'Space Mono', monospace; }
+  .quiz-results .score-label { color: var(--text-dim); font-family: 'Space Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .quiz-results .verdict { font-size: 18px; font-weight: 600; margin: 14px 0; }
+
+  /* ---------- Achievements ---------- */
+  .achievement-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .achievement {
+    padding: 16px 12px; background: var(--panel-2); border: 1px solid var(--border-soft);
+    border-radius: 10px; text-align: center; transition: all 0.2s; opacity: 0.4;
+  }
+  .achievement.unlocked { opacity: 1; border-color: var(--core1); background: rgba(124,106,247,0.06); }
+  .achievement .ach-icon { font-size: 32px; margin-bottom: 8px; filter: grayscale(100%); }
+  .achievement.unlocked .ach-icon { filter: none; }
+  .achievement .ach-name { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .achievement .ach-desc { font-size: 11px; color: var(--text-mute); line-height: 1.3; }
+
+  /* ---------- Toast ---------- */
+  .toast-stack {
+    position: fixed; bottom: 20px; right: 20px; z-index: 300;
+    display: flex; flex-direction: column-reverse; gap: 10px; max-width: 340px; pointer-events: none;
+  }
+  .toast {
+    background: var(--panel); border: 1px solid var(--core1); color: var(--text);
+    padding: 14px 18px; border-radius: 10px; font-size: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    animation: toastIn 0.3s ease-out;
+    pointer-events: auto;
+  }
+  .toast.xp { border-color: var(--xp); }
+  .toast.achievement { border-color: var(--success); background: linear-gradient(90deg, rgba(45,212,160,0.15), var(--panel)); }
+  .toast.streak { border-color: var(--sec); }
+  .toast .toast-title { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-mute); margin-bottom: 4px; }
+  .toast .toast-msg { font-weight: 600; }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ---------- Footer ---------- */
+  footer.foot {
+    text-align: center; padding: 20px; color: var(--text-mute); font-size: 12px;
+    font-family: 'Space Mono', monospace;
+  }
+  footer.foot .tools {
+    margin-bottom: 12px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+  }
+
+  /* ---------- Misc ---------- */
+  .hidden { display: none !important; }
+  .pacing-note {
+    font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-dim);
+    margin-top: 12px; padding: 10px 12px; background: rgba(245,166,35,0.06);
+    border: 1px solid rgba(245,166,35,0.2); border-radius: 6px;
+  }
+  .pacing-note strong { color: var(--warn); }
+
+  /* ---------- Domain section dividers ---------- */
+  .domain-header {
+    margin: 24px 0 12px; padding: 10px 14px;
+    background: var(--panel-2); border-radius: 8px;
+    font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700;
+    border-left: 3px solid var(--core1); color: var(--text);
+  }
+  .domain-header.core2 { border-left-color: var(--core2); }
+  .domain-header .pct { color: var(--text-mute); font-weight: 400; margin-left: 8px; }
+
+  /* ---------- Reset confirm ---------- */
+  .danger-zone { margin-top: 30px; padding: 14px; border: 1px dashed rgba(240,96,96,0.3); border-radius: 8px; }
+
+  @media (max-width: 600px) {
+    .container { padding: 16px; }
+    .hud-inner { padding: 12px 16px; gap: 10px; }
+    .hud-stats { gap: 8px; width: 100%; }
+    .stat { padding: 6px 10px; font-size: 12px; }
+    .hero { padding: 22px; }
+    .day-header { padding: 12px 14px; gap: 10px; }
+    .day-num { width: 38px; height: 38px; font-size: 12px; }
+    .day-body { padding: 0 14px 16px; }
+    .star { width: 24px; height: 24px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hud">
+  <div class="hud-inner">
+    <div class="brand">
+      <div class="logo">A+</div>
+      <span><span class="name">CompTIA</span> <span class="plus">Quest</span></span>
+    </div>
+    <div class="hud-stats">
+      <div class="stat level">
+        <span class="label">Level</span>
+        <span class="value level-badge"><span id="level-num">1</span> · <span id="level-name">Technician Trainee</span></span>
+      </div>
+      <div class="stat xp">
+        <span class="label">XP</span>
+        <span class="value"><span id="xp-current">0</span><span style="color:var(--text-mute)"> / </span><span id="xp-next">250</span></span>
+      </div>
+      <div class="stat streak">
+        <span class="label">Streak</span>
+        <span class="value"><span id="streak-count">0</span> 🔥</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero">
+    <h1>Welcome to <span class="accent">CompTIA</span> <span class="accent2">A+</span> Quest</h1>
+    <p class="tagline">An 8-week, gamified study companion for the CompTIA A+ certification V15 (Core 1: 220-1201 + Core 2: 220-1202). 100% free. No paywalls, no signups, no nonsense — just structured study, XP, streaks, and shipped knowledge.</p>
+    <div class="meta-row">
+      <span>56 days · 180 exam questions total</span>
+      <span>Core 1 passing: 675/900</span>
+      <span>Core 2 passing: 700/900</span>
+      <span>Resources: 100% free</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="icon">🔥</span> Your 7-Day Streak</h2>
+    <div class="streak-row">
+      <div class="streak-stars" id="streak-stars">
+        <!-- 7 stars rendered by JS -->
+      </div>
+      <div class="streak-info">
+        <div class="label">Current streak</div>
+        <div class="value"><span id="streak-detail">0</span> day(s) · Bonus +10 XP first task each day</div>
+      </div>
+    </div>
+    <div class="level-progress" style="margin-top:14px;">
+      <div class="fill" id="level-fill" style="width:0%"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="icon">📅</span> Your Exam Dates</h2>
+    <p>Set your scheduled exam dates and the game will pace your study load. You can take them in either order — most candidates start with Core 1.</p>
+    <div class="date-grid">
+      <div class="date-card core1">
+        <div class="exam-name">Core 1 — 220-1201</div>
+        <label for="exam1-date">Hardware & Networking</label>
+        <input type="date" id="exam1-date">
+        <div class="countdown" id="exam1-countdown">No date set</div>
+      </div>
+      <div class="date-card core2">
+        <div class="exam-name">Core 2 — 220-1202</div>
+        <label for="exam2-date">OS, Security & Software</label>
+        <input type="date" id="exam2-date">
+        <div class="countdown" id="exam2-countdown">No date set</div>
+      </div>
+    </div>
+    <div class="pacing-note" id="pacing-note">
+      <strong>💡 Tip:</strong> The recommended schedule is 56 days total — Days 1-28 cover Core 1 (220-1201), Days 29-56 cover Core 2 (220-1202). Plan to take your Core 1 exam around Day 28-30 and Core 2 around Day 54-56. You can take them in either order.
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="icon">🏆</span> Achievements</h2>
+    <div class="achievement-grid" id="achievement-grid"><!-- rendered by JS --></div>
+  </section>
+
+  <section class="section">
+    <h2><span class="icon">📖</span> 8-Week Study Path</h2>
+    <p>Click any day to expand its checklist. Each task earns XP. Mini-quizzes at the end of each major domain test recall.</p>
+    <div class="week-tabs" id="week-tabs"><!-- rendered by JS --></div>
+    <div id="day-list-container"><!-- rendered by JS --></div>
+  </section>
+
+  <section class="section">
+    <h2><span class="icon">🔗</span> Study Resources</h2>
+    <p>The video training, practice questions, and exam objectives below are <strong>100% free, no signup required</strong>. Bookmark them.</p>
+    <h3 style="color:var(--core1);">📺 Video Training (Free)</h3>
+    <ul class="resources">
+      <li><a href="https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/" target="_blank" rel="noopener">Professor Messer — Core 1 (220-1201) Free Video Training</a> — the gold standard, organized by exam objective</li>
+      <li><a href="https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/" target="_blank" rel="noopener">Professor Messer — Core 2 (220-1202) Free Video Training</a> — full playlist, no signup</li>
+    </ul>
+    <h3 style="color:var(--core2);">📝 Practice Questions (Free)</h3>
+    <ul class="resources">
+      <li><a href="https://www.examcompass.com/" target="_blank" rel="noopener">ExamCompass — Free IT Certification Practice Tests</a> — browse the CompTIA A+ section for current exam version</li>
+      <li><a href="https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions" target="_blank" rel="noopener">CrucialExams — A+ 220-1201 Core 1 Practice Tests</a></li>
+      <li><a href="https://crucialexams.com/exams/comptia/a/220-1202/practice-tests-practice-questions" target="_blank" rel="noopener">CrucialExams — A+ 220-1202 Core 2 Practice Tests</a></li>
+    </ul>
+    <h3 style="color:var(--warn);">📋 Official Exam Objectives</h3>
+    <ul class="resources">
+      <li><a href="https://www.comptia.org/certifications/a" target="_blank" rel="noopener">CompTIA Official A+ Page</a> — download the free Exam Objectives PDFs for 220-1201 and 220-1202</li>
+    </ul>
+    <h3 style="color:var(--trouble);">📖 Companion Textbook (Optional)</h3>
+    <ul class="resources">
+      <li><strong>CompTIA A+ Complete Study Guide, 2-Volume Set:</strong> Volume 1 (Core 1 Exam 220-1201) + Volume 2 (Core 2 Exam 220-1202), <strong>6th Edition (2025)</strong> by Quentin Docter &amp; Jon Buhagiar — Sybex/Wiley. ISBN 978-1-394-33003-4.</li>
+    </ul>
+    <p style="font-size:13px;color:var(--text-mute);margin-top:8px">Every task in your daily plan ends with an <code style="background:var(--panel-2);padding:2px 6px;border-radius:4px;color:var(--core1)">(Obj X.Y)</code> reference pointing to the official CompTIA exam objective number. The textbook is <strong>completely optional</strong> — Professor Messer's free videos cover every objective. The objective numbers above let you cross-reference any study material (Sybex book, Mike Meyers, Pearson, etc.) — they're the universal index that ties this study plan to the exam blueprint.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="icon">⚙️</span> Settings</h2>
+    <p>Your progress is saved automatically in this browser. Clearing site data will erase your progress.</p>
+    <div class="danger-zone">
+      <button class="btn btn-danger" id="reset-btn">Reset all progress</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="tools">
+    <span>Built for IT career changers · v1.0</span>
+  </div>
+  <div>Not affiliated with CompTIA. CompTIA® and A+® are registered trademarks of CompTIA, Inc.</div>
+</footer>
+
+<!-- Modal for quizzes -->
+<div class="modal-backdrop" id="quiz-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="title" id="quiz-title">Mini-Quiz</div>
+      <button class="modal-close" id="quiz-close">×</button>
+    </div>
+    <div class="modal-body" id="quiz-body"></div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack"></div>
+
+<script>
+/* =========================================================================
+   COMPTIA A+ QUEST — single-file gamified study tool
+   Data + game logic + render
+   ========================================================================= */
+
+/* ---------- LEVELS ---------- */
+const LEVELS = [
+  { num: 1, name: 'Technician Trainee',  xp: 0    },
+  { num: 2, name: 'Help Desk Hopeful',   xp: 250  },
+  { num: 3, name: 'Hardware Explorer',   xp: 600  },
+  { num: 4, name: 'Network Navigator',   xp: 1100 },
+  { num: 5, name: 'OS Operator',         xp: 1700 },
+  { num: 6, name: 'Security Specialist', xp: 2400 },
+  { num: 7, name: 'Troubleshooting Master', xp: 3200 },
+  { num: 8, name: 'A+ Certified Ready',  xp: 4000 },
+];
+
+/* ---------- ACHIEVEMENTS ---------- */
+const ACHIEVEMENTS = [
+  { id: 'first-boot',    icon: '⚡', name: 'First Boot',     desc: 'Complete your first task' },
+  { id: 'hardware-hero', icon: '🖥️', name: 'Hardware Hero',   desc: 'Complete all Week 1-2 (hardware) tasks' },
+  { id: 'network-ninja', icon: '🌐', name: 'Network Ninja',   desc: 'Complete all networking tasks' },
+  { id: 'security-sentinel', icon: '🛡️', name: 'Security Sentinel', desc: 'Complete all security tasks' },
+  { id: 'grinder',       icon: '🔥', name: 'Grinder',         desc: 'Complete 40 tasks total' },
+  { id: 'halfway-there', icon: '🏔️', name: 'Halfway There',   desc: 'Reach 50% overall completion' },
+  { id: 'all-done',      icon: '🎯', name: 'All Done',        desc: 'Complete every task' },
+  { id: 'focused',       icon: '⏱️', name: 'Focused',         desc: 'Complete 12 tasks in one session' },
+];
+/* ============================================================================
+   COMPTIA A+ QUEST — V15 (Core 1: 220-1201, Core 2: 220-1202)
+   56-day study plan, calibrated to official CompTIA exam objectives v4.0
+   Source of truth: CompTIA exam objectives PDFs (free at comptia.org)
+   Companion book: Sybex "CompTIA A+ Complete Study Guide 2-Volume Set"
+                   6th Ed, 2025, Docter & Buhagiar (ISBN 978-1-394-33003-4)
+   Each task ends with "(Obj X.Y)" mapping to the official CompTIA objective.
+   ============================================================================ */
+
+/* ============================================================================
+   COMPTIA A+ QUEST — V15 (Core 1: 220-1201, Core 2: 220-1202)
+   56-day study plan, calibrated to official CompTIA exam objectives v4.0
+   Source of truth: CompTIA exam objectives PDFs (free at comptia.org)
+   Companion book: Sybex "CompTIA A+ Complete Study Guide 2-Volume Set"
+                   6th Ed, 2025, Docter & Buhagiar (ISBN 978-1-394-33003-4)
+   Each task ends with "(Obj X.Y)" mapping to the official CompTIA objective.
+   ============================================================================ */
+
+const DAYS = [
+  /* ============================== WEEK 1 ============================== */
+  /* Mobile Devices (13%) + Networking foundations */
+  {
+    day: 1, week: 1, exam: 'core1',
+    domain: 'Mobile Devices (13%)',
+    title: 'Laptop Hardware: Displays, Components & Replacements',
+    tasks: [
+      { text: 'Identify display types: LCD (TN/IPS/VA), OLED, Mini-LED — know contrast, viewing angle, and use-case tradeoffs (Obj 3.1)', xp: 25 },
+      { text: 'Understand display components: digitizer, webcam, microphone, inverter (legacy CCFL), Wi-Fi antenna routing (Obj 3.1)', xp: 25 },
+      { text: 'Identify laptop internals: SODIMM, M.2 NVMe, Wi-Fi/Bluetooth card, battery (Li-ion swelling = safety hazard) (Obj 1.1)', xp: 20 },
+      { text: 'Special function keys: dual displays, keyboard backlight, touchpad toggle, screen brightness, airplane mode, volume, Bluetooth (Obj 1.1)', xp: 20 },
+      { text: 'Watch Professor Messer 220-1201 Domain 1 (Mobile Devices) videos covering 1.1 (Obj 1.1)', xp: 30 },
+    ],
+    terms: ['LCD','TN','IPS','VA','OLED','Mini-LED','digitizer','SODIMM','M.2','NVMe','Li-ion','swollen battery','function keys'],
+    review: 'Without notes, list the three LCD subtypes and one defining property of each. Then describe the safety procedure when you encounter a swollen laptop battery.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 Free Video Course', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'CompTIA Official 220-1201 Exam Objectives PDF', url: 'https://www.comptia.org/certifications/a' },
+    ],
+  },
+  {
+    day: 2, week: 1, exam: 'core1',
+    domain: 'Mobile Devices (13%)',
+    title: 'Mobile Accessories, Connections & Ports',
+    tasks: [
+      { text: 'Identify mobile accessories: docking stations, port replicators, privacy filters, drawing pads, touch pens, headsets, webcams (Obj 1.2)', xp: 25 },
+      { text: 'Compare connectivity options: USB-C (most common modern standard), Thunderbolt 3/4, Lightning (legacy iPhone), microUSB (Obj 1.2)', xp: 25 },
+      { text: 'Wireless connection methods: NFC (tap-to-pair), Bluetooth (PAN), hotspot/tethering — know typical range and use case for each (Obj 1.2)', xp: 20 },
+      { text: 'Storage cards: SD, microSD, eMMC — know form factors and capacity differences (Obj 1.2)', xp: 15 },
+      { text: 'Take a free mobile devices practice quiz on ExamCompass or CrucialExams (Obj 1.2)', xp: 25 },
+    ],
+    terms: ['USB-C','Thunderbolt','Lightning','NFC','docking station','port replicator','privacy filter','hotspot','tethering','eMMC'],
+    review: 'List the difference between a docking station and a port replicator. List 4 ports you would expect on a modern business laptop in 2026.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Mobile Accessories)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+    ],
+  },
+  {
+    day: 3, week: 1, exam: 'core1',
+    domain: 'Mobile Devices (13%)',
+    title: 'Mobile Connectivity, MDM & Synchronization',
+    tasks: [
+      { text: 'Cellular standards: 3G/4G/5G — know speed/range tradeoffs (note: 2G, GSM/CDMA, PRL removed in V15) (Obj 1.3)', xp: 25 },
+      { text: 'SIM/eSIM, hotspot, Wi-Fi enable/disable — eSIM is software-based and supports multiple lines on one device (Obj 1.3)', xp: 20 },
+      { text: 'Bluetooth pairing: enable, find, PIN, test connectivity — know the order of operations (Obj 1.3)', xp: 20 },
+      { text: 'Location services: GPS vs. cellular triangulation — battery and accuracy implications (Obj 1.3)', xp: 15 },
+      { text: 'MDM concepts: corporate vs BYOD, policy enforcement, corporate apps — what an MDM controls and what it doesn\'t (Obj 1.3)', xp: 25 },
+      { text: 'Mobile sync: data caps awareness, calendar/contacts/business apps (Mail, cloud storage) (Obj 1.3)', xp: 20 },
+    ],
+    terms: ['5G','SIM','eSIM','hotspot','Bluetooth pairing','GPS','MDM','BYOD','data cap','sync','PAN'],
+    review: 'Explain in one sentence what eSIM enables that physical SIM doesn\'t. Then describe the difference between MDM corporate policy and BYOD policy.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Mobile Connectivity)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+    quiz: {
+      title: 'Mobile Devices Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'A user wants to use two phone numbers on a single iPhone without a physical SIM swap. Which technology enables this?',
+          options: ['NFC', 'eSIM', 'Bluetooth tethering', 'Hotspot mode'],
+          answer: 1,
+          explain: 'eSIM is an embedded SIM that lets a single device carry multiple cellular profiles in software. NFC and Bluetooth are short-range wireless. Hotspot shares an existing connection.',
+        },
+        {
+          q: 'Which display technology offers true blacks and the highest contrast ratio because each pixel emits its own light?',
+          options: ['IPS LCD', 'TN LCD', 'OLED', 'Mini-LED'],
+          answer: 2,
+          explain: 'OLED pixels self-emit and can fully turn off, producing true black. Mini-LED has many local dimming zones but still uses a backlight. IPS and TN are LCD panel technologies that need a continuous backlight.',
+        },
+        {
+          q: 'A field tech reports a noticeably swollen battery on a user\'s laptop. What is the correct first action?',
+          options: ['Continue using the device until power runs out', 'Stop using the device immediately and isolate it for safe disposal', 'Try to discharge it fully then dispose', 'Pierce the battery to release pressure'],
+          answer: 1,
+          explain: 'A swollen Li-ion battery is a fire and chemical hazard. Stop use, isolate from heat and combustibles, and follow your org\'s e-waste / hazardous-material disposal procedure. Never puncture it.',
+        },
+        {
+          q: 'A laptop user needs to connect an external 4K monitor, a wired keyboard, an Ethernet cable, and a USB drive — but the laptop only has two USB-C ports. Which device is the best fit?',
+          options: ['A KVM switch', 'A docking station with a single USB-C upstream', 'An RJ45 splitter', 'A Bluetooth dongle'],
+          answer: 1,
+          explain: 'A modern USB-C docking station provides display, USB-A, Ethernet, and often power delivery from one upstream cable — exactly the use case here. KVM switches are for sharing peripherals across multiple computers.',
+        },
+        {
+          q: 'Which port type is most associated with Apple devices like iPhones (pre-2024) and uses a small, reversible connector?',
+          options: ['Micro-USB', 'USB-C', 'Lightning', 'Thunderbolt 3'],
+          answer: 2,
+          explain: 'Lightning is Apple\'s proprietary connector used on iPhones from 2012 to 2023. Newer iPhones (15+) use USB-C. Lightning carries power and data but is not the same as Thunderbolt.',
+        },
+      ],
+    },
+  },
+  {
+    day: 4, week: 1, exam: 'core1',
+    domain: 'Networking (23%)',
+    title: 'TCP/UDP, Ports & Common Protocols',
+    tasks: [
+      { text: 'Memorize critical ports: 20/21 FTP, 22 SSH, 23 Telnet, 25 SMTP, 53 DNS, 67/68 DHCP, 80 HTTP, 110 POP3 (Obj 2.1)', xp: 30 },
+      { text: 'More ports: 137-139 NetBIOS/NetBT, 143 IMAP, 161/162 SNMP, 389 LDAP, 443 HTTPS, 445 SMB/CIFS, 3389 RDP (Obj 2.1)', xp: 30 },
+      { text: 'TCP vs UDP: connection-oriented (HTTPS, SSH) vs connectionless (DHCP, TFTP) — when to use which (Obj 2.1)', xp: 20 },
+      { text: 'Build flashcards: every port → protocol → TCP/UDP → typical use case (do this physically or in Anki) (Obj 2.1)', xp: 20 },
+      { text: 'Watch Professor Messer 220-1201 Domain 2 (Networking) — TCP/UDP and ports videos (Obj 2.1)', xp: 25 },
+    ],
+    terms: ['TCP','UDP','FTP','SSH','SMTP','DNS','DHCP','HTTP','HTTPS','SMB','RDP','LDAP','IMAP','POP3','SNMP','NetBIOS'],
+    review: 'Without looking, write down the port numbers for: SSH, DNS, HTTPS, SMB, RDP, LDAP. Then state whether DHCP uses TCP or UDP and why.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (TCP/UDP & Ports)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 5, week: 1, exam: 'core1',
+    domain: 'Networking (23%)',
+    title: 'Wireless Standards: 802.11, Bluetooth & RF',
+    tasks: [
+      { text: 'Wireless standards: 802.11a/b/g/n/ac (Wi-Fi 5)/ax (Wi-Fi 6/6E) — frequencies, speeds, ranges (Obj 2.2)', xp: 25 },
+      { text: 'Frequencies: 2.4 GHz (longer range, more interference) vs 5 GHz (faster, shorter range) vs 6 GHz (Wi-Fi 6E, less crowded) (Obj 2.2)', xp: 25 },
+      { text: 'Channels: 2.4 GHz has 11 channels (1, 6, 11 non-overlapping); 5 GHz has many — channel selection avoids interference (Obj 2.2)', xp: 20 },
+      { text: 'Long-range fixed wireless: licensed vs unlicensed bands, regulatory power requirements (Obj 2.2)', xp: 15 },
+      { text: 'NFC, RFID, Bluetooth: typical ranges (NFC ~4cm, BT ~10m class 2, RFID varies) and use cases (Obj 2.2)', xp: 20 },
+      { text: 'Take ExamCompass wireless networking practice questions (Obj 2.2)', xp: 25 },
+    ],
+    terms: ['Wi-Fi 6','Wi-Fi 6E','802.11ax','2.4 GHz','5 GHz','6 GHz','channel','NFC','RFID','Bluetooth','long-range fixed wireless'],
+    review: 'List the three non-overlapping channels at 2.4 GHz. Explain in one sentence why a coffee shop might prefer 5 GHz over 2.4 GHz despite shorter range.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Wireless)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+    ],
+    quiz: {
+      title: 'Networking Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'Which port number is associated with secure web traffic?',
+          options: ['80', '8080', '443', '21'],
+          answer: 2,
+          explain: '443 is HTTPS (HTTP over TLS/SSL). 80 is plain HTTP. 8080 is a common alternate HTTP port. 21 is FTP control.',
+        },
+        {
+          q: 'A user reports their device received an IP address automatically. Which protocol delivered it, and over which transport?',
+          options: ['DNS over TCP', 'DHCP over UDP', 'DHCP over TCP', 'ARP over UDP'],
+          answer: 1,
+          explain: 'DHCP assigns IP addresses dynamically and uses UDP (ports 67 server / 68 client). It\'s connectionless because the client doesn\'t yet have an IP for a TCP handshake.',
+        },
+        {
+          q: 'In a crowded apartment building, a user complains their 2.4 GHz Wi-Fi keeps slowing down. Their neighbors all use Wi-Fi too. What is the BEST first move?',
+          options: ['Switch to channel 4', 'Switch to channel 1, 6, or 11 — whichever is least used', 'Move to Bluetooth', 'Disable encryption to speed things up'],
+          answer: 1,
+          explain: 'At 2.4 GHz, channels 1, 6, and 11 are the only fully non-overlapping channels. Picking the least-used of those minimizes co-channel interference. Channel 4 overlaps with multiple others. Disabling encryption is never the answer.',
+        },
+        {
+          q: 'Which protocol commonly runs on TCP port 22 and is used to securely access remote servers via command line?',
+          options: ['Telnet', 'SSH', 'FTP', 'SNMP'],
+          answer: 1,
+          explain: 'SSH (Secure Shell) on port 22 provides encrypted remote command-line access. Telnet (port 23) is unencrypted and obsolete for production. FTP is file transfer (20/21). SNMP is monitoring (161/162).',
+        },
+        {
+          q: 'A retail employee wants to enable contactless payment using their phone. Which short-range wireless technology is typically involved?',
+          options: ['Bluetooth Classic', 'NFC', 'Wi-Fi Direct', 'RFID UHF'],
+          answer: 1,
+          explain: 'NFC (Near Field Communication) operates at ~4cm and is the standard for contactless payment (Apple Pay, Google Wallet). RFID is related but usually longer range. Bluetooth and Wi-Fi Direct are not used for tap-to-pay.',
+        },
+      ],
+    },
+  },
+  {
+    day: 6, week: 1, exam: 'core1',
+    domain: 'Networking (23%)',
+    title: 'Networking Hardware: Routers, Switches, APs, Firewalls',
+    tasks: [
+      { text: 'Routers (Layer 3, route between networks) vs Switches (Layer 2, switch within a network) — know the difference cold (Obj 2.5)', xp: 30 },
+      { text: 'Managed vs unmanaged switches: VLANs, port mirroring, SNMP — managed are configurable, unmanaged are plug-and-play (Obj 2.5)', xp: 25 },
+      { text: 'Access points (APs), patch panels, firewalls (HW vs SW), Power over Ethernet (PoE injectors and PoE switches) (Obj 2.5)', xp: 25 },
+      { text: 'Cable modem, DSL modem, ONT (fiber), NIC, software-defined networking (SDN) — what each does (Obj 2.5)', xp: 20 },
+      { text: 'Watch Professor Messer 220-1201 Domain 2 (Networking Hardware) videos (Obj 2.5)', xp: 25 },
+    ],
+    terms: ['router','switch','managed switch','VLAN','access point','patch panel','firewall','PoE','ONT','SDN','NIC'],
+    review: 'Explain in one sentence what makes a managed switch different from an unmanaged switch. Then explain what PoE solves.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Networking Hardware)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 7, week: 1, exam: 'core1',
+    domain: 'Networking (23%)',
+    title: 'IP Addressing, DHCP, DNS & Network Configuration',
+    tasks: [
+      { text: 'IPv4 basics: classes (A/B/C/D/E), private ranges (10.0.0.0/8, 172.16-31, 192.168), APIPA (169.254.x.x) (Obj 2.6)', xp: 30 },
+      { text: 'IPv6: full and shortened format, link-local (fe80::), no need for NAT, Stateless Address Autoconfig (SLAAC) (Obj 2.6)', xp: 25 },
+      { text: 'Subnet masks: /24 = 255.255.255.0; understand the relationship between mask and network/host bits (Obj 2.6)', xp: 25 },
+      { text: 'DHCP: lease, scope, reservation, exclusion — what each one means (Obj 2.4)', xp: 25 },
+      { text: 'DNS: A, AAAA, MX, CNAME, TXT records — when each is used (Obj 2.4)', xp: 25 },
+      { text: 'VLANs vs VPNs — VLAN = logical separation on a switch; VPN = encrypted tunnel over untrusted network (Obj 2.4)', xp: 20 },
+    ],
+    terms: ['IPv4','IPv6','APIPA','subnet mask','/24','DHCP','lease','scope','DNS','A record','AAAA','MX','CNAME','VLAN','VPN','SLAAC'],
+    review: 'Without notes: state the three private IPv4 ranges. Explain the difference between an A record and an AAAA record. Explain when you\'d use a CNAME.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (IP Addressing)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+    ],
+  },
+
+  /* ============================== WEEK 2 ============================== */
+  /* Hardware (25%) */
+  {
+    day: 8, week: 2, exam: 'core1',
+    domain: 'Hardware (25%)',
+    title: 'Network Cables: Copper, Optical & Connectors',
+    tasks: [
+      { text: 'Twisted pair: Cat 5e (1 Gbps), Cat 6 (1-10 Gbps short), Cat 6a (10 Gbps full), Cat 7/8 (data center) (Obj 3.2)', xp: 25 },
+      { text: 'Coaxial (cable internet, legacy video), shielded vs unshielded twisted pair (STP/UTP), plenum-rated for in-ceiling runs (Obj 3.2)', xp: 25 },
+      { text: 'Fiber optic: single-mode (long distance) vs multi-mode (short, datacenter); LC, SC, ST connectors (Obj 3.2)', xp: 25 },
+      { text: 'Wiring standards: T568A vs T568B (use one consistently within a building/run) (Obj 3.2)', xp: 15 },
+      { text: 'Direct burial cables for outdoor underground runs (Obj 3.2)', xp: 15 },
+      { text: 'Take CrucialExams networking cables practice quiz (Obj 3.2)', xp: 25 },
+    ],
+    terms: ['Cat 5e','Cat 6','Cat 6a','plenum','UTP','STP','single-mode','multi-mode','LC','SC','ST','T568A','T568B','direct burial'],
+    review: 'List the connector type used for fiber optic at the end of a server uplink. Explain why plenum-rated cable matters in a commercial drop ceiling.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Cables)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 9, week: 2, exam: 'core1',
+    domain: 'Hardware (25%)',
+    title: 'Peripheral Cables, Video & Storage Connectors',
+    tasks: [
+      { text: 'USB versions: USB 2.0 (480 Mbps), USB 3.0/3.1/3.2 (5-20 Gbps), USB4 (40 Gbps), USB-C as a connector format (Obj 3.2)', xp: 25 },
+      { text: 'Thunderbolt 3/4 (up to 40 Gbps) — looks like USB-C but with the lightning bolt logo (Obj 3.2)', xp: 20 },
+      { text: 'Video cables: HDMI (most common, audio + video), DisplayPort (PC-focused, daisy-chain), DVI (legacy), VGA (legacy) (Obj 3.2)', xp: 25 },
+      { text: 'Hard drive cables: SATA (most common internal), eSATA (external), M.2 NVMe (slot, no cable for internal) (Obj 3.2)', xp: 20 },
+      { text: 'Connector types reference chart: RJ11 (phone), RJ45 (Ethernet), USB-C, microUSB, miniUSB, Lightning, Molex (legacy power) (Obj 3.2)', xp: 25 },
+    ],
+    terms: ['USB-C','Thunderbolt 4','HDMI','DisplayPort','DVI','SATA','eSATA','M.2','RJ11','RJ45','Molex','Lightning'],
+    review: 'Without looking: HDMI vs DisplayPort — name two scenarios where you\'d pick DP over HDMI. Then state which port USB-C and Thunderbolt 4 share.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Peripheral Cables)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 10, week: 2, exam: 'core1',
+    domain: 'Hardware (25%)',
+    title: 'RAM Types, Configurations & Installation',
+    tasks: [
+      { text: 'RAM types: DDR3 (legacy), DDR4 (mainstream), DDR5 (modern, 2021+) — non-interchangeable due to keying (Obj 3.3)', xp: 25 },
+      { text: 'Form factors: DIMM (desktops), SODIMM (laptops, mini-PCs); ECC (servers, error correction) vs non-ECC (Obj 3.3)', xp: 25 },
+      { text: 'Memory configurations: single-channel, dual-channel (paired slots), quad-channel — performance impact (Obj 3.3)', xp: 20 },
+      { text: 'Virtual RAM/page file: Windows uses disk as overflow when physical RAM runs out — slower but prevents OOM (Obj 3.3)', xp: 20 },
+      { text: 'RAM installation: ESD strap, line up notch, push down evenly until clips engage (Obj 3.3)', xp: 15 },
+      { text: 'Watch Professor Messer 220-1201 Domain 3 (Hardware/RAM) videos (Obj 3.3)', xp: 25 },
+    ],
+    terms: ['DDR4','DDR5','DIMM','SODIMM','ECC RAM','dual-channel','virtual RAM','page file','ESD'],
+    review: 'Without notes: explain why dual-channel typically requires installing RAM in matched pairs. Then explain when ECC RAM is appropriate.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (RAM)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 11, week: 2, exam: 'core1',
+    domain: 'Hardware (25%)',
+    title: 'Storage: HDDs, SSDs, NVMe, RAID',
+    tasks: [
+      { text: 'HDD: spinning disk, 5400 vs 7200 vs 10K/15K RPM, mechanical, slowest, cheapest per GB (Obj 3.4)', xp: 20 },
+      { text: 'SSD: SATA SSD (~550 MB/s cap), M.2 NVMe (PCIe, multi-GB/s), no moving parts, faster, more expensive per GB (Obj 3.4)', xp: 25 },
+      { text: 'M.2 form factor: SATA M.2 vs NVMe M.2 — same slot, different protocols and speeds (Obj 3.4)', xp: 25 },
+      { text: 'RAID 0 (stripe, no redundancy), RAID 1 (mirror), RAID 5 (stripe + parity, 3+ drives), RAID 10 (mirror+stripe) (Obj 3.4)', xp: 30 },
+      { text: 'Removable/optical: BD/DVD (legacy), USB flash drives, external SSDs, network-attached storage (NAS) (Obj 3.4)', xp: 20 },
+      { text: 'Take a CrucialExams storage practice quiz (Obj 3.4)', xp: 25 },
+    ],
+    terms: ['HDD','SSD','M.2','NVMe','SATA SSD','RAID 0','RAID 1','RAID 5','RAID 10','NAS'],
+    review: 'Without notes: rank RAID 0, 1, 5, 10 by fault tolerance (most → least). Then explain why RAID 5 needs at least 3 drives.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Storage)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+    ],
+    quiz: {
+      title: 'Storage & RAID Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'A user wants the FASTEST possible storage for video editing on a single drive. Which is the BEST choice?',
+          options: ['7200 RPM HDD', 'SATA SSD', 'M.2 NVMe SSD', 'eSATA external HDD'],
+          answer: 2,
+          explain: 'M.2 NVMe SSDs use the PCIe bus and routinely hit 3,000–7,000 MB/s — far faster than SATA SSDs (~550 MB/s cap) or any HDD. Single-drive context rules out RAID.',
+        },
+        {
+          q: 'A small business needs storage that protects against a single drive failure but still wants improved read performance. With 4 drives available, which RAID level is BEST?',
+          options: ['RAID 0', 'RAID 1', 'RAID 5', 'JBOD'],
+          answer: 2,
+          explain: 'RAID 5 stripes with distributed parity, giving fault tolerance for one drive failure plus read-speed gains from striping. RAID 0 has no redundancy. RAID 1 mirrors but doesn\'t use 4 drives efficiently. JBOD has no redundancy.',
+        },
+        {
+          q: 'A technician installed a SATA M.2 drive into an M.2 slot but Windows won\'t recognize it at NVMe speeds. What is the most likely cause?',
+          options: ['The drive is defective', 'The drive is M.2 SATA, not M.2 NVMe — the protocol is different despite the same slot', 'The slot is broken', 'BIOS needs replacement'],
+          answer: 1,
+          explain: 'M.2 is a form factor, not a protocol. M.2 SATA drives top out at ~550 MB/s; M.2 NVMe drives use PCIe and reach much higher speeds. They look similar but use different keying/protocols.',
+        },
+        {
+          q: 'In a RAID 1 setup with two 1 TB drives, what is the total usable capacity?',
+          options: ['2 TB', '1 TB', '500 GB', '1.5 TB'],
+          answer: 1,
+          explain: 'RAID 1 mirrors data identically across both drives, so usable capacity equals the size of one drive. The redundancy comes at the cost of half the raw capacity.',
+        },
+        {
+          q: 'A user is accidentally storing files on a drive labeled "D:" but means to use "C:". This drive shows up but is full of unfamiliar data. What should the technician check first?',
+          options: ['Reformat D: immediately', 'Check whether D: is an external drive belonging to someone else still mounted', 'Replace the drive', 'Delete the partition'],
+          answer: 1,
+          explain: 'Never reformat or delete data without first identifying ownership. The drive may be a colleague\'s external SSD, a network share, or a mounted backup. Identify before destroying.',
+        },
+      ],
+    },
+  },
+  {
+    day: 12, week: 2, exam: 'core1',
+    domain: 'Hardware (25%)',
+    title: 'Motherboards, CPUs, Power Supplies & Cooling',
+    tasks: [
+      { text: 'Motherboard form factors: ATX (full size), microATX (mid), Mini-ITX (compact); ITX is smallest standard (Obj 3.5)', xp: 20 },
+      { text: 'CPU architecture: x64/x86 (Intel/AMD), ARM (mobile, Apple Silicon, modern Windows on ARM); cores, threads, hyperthreading (Obj 3.5)', xp: 25 },
+      { text: 'CPU sockets: LGA (Intel pins on board) vs PGA (AMD pins on chip) — common feature of new exam (Obj 3.5)', xp: 20 },
+      { text: 'Power supply: wattage, 80 PLUS efficiency rating (Bronze/Silver/Gold/Platinum), modular vs non-modular, redundant PSUs (Obj 3.6)', xp: 25 },
+      { text: 'Power connectors: 24-pin ATX, 4/8-pin EPS (CPU), 6/8-pin PCIe, SATA power, Molex (legacy) (Obj 3.6)', xp: 20 },
+      { text: 'Cooling: stock fans, aftermarket air coolers, AIO liquid cooling, custom loops; thermal paste application (Obj 3.6)', xp: 20 },
+    ],
+    terms: ['ATX','microATX','Mini-ITX','LGA','PGA','x64','ARM','hyperthreading','80 PLUS','modular PSU','24-pin ATX','EPS','AIO'],
+    review: 'Without notes: explain the difference between LGA and PGA. State why ARM CPUs are now in PCs (not just phones).',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Motherboards/CPUs/PSUs)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 13, week: 2, exam: 'core1',
+    domain: 'Hardware (25%)',
+    title: 'Printers, Imaging & Multifunction Devices',
+    tasks: [
+      { text: 'Laser printer 7-step imaging process (memorize cold!): Processing → Charging → Exposing → Developing → Transferring → Fusing → Cleaning (Obj 3.7)', xp: 35 },
+      { text: 'Inkjet: print head, ink cartridges, roller, duplexing assembly, calibration; head clogs are the most common issue (Obj 3.7)', xp: 25 },
+      { text: 'Thermal printers: feed assembly, heating element, special thermal paper (no ink); receipts, shipping labels (Obj 3.7)', xp: 15 },
+      { text: '3D printers: filament (FDM) vs resin (SLA); print bed leveling, slicing software, supports (Obj 3.7)', xp: 15 },
+      { text: 'Printer connectivity: USB (local), network (TCP/IP, AirPrint, IPP), Bluetooth/Wi-Fi Direct (Obj 3.7)', xp: 20 },
+      { text: 'Printer maintenance: laser (replace toner, fuser, clean rollers), inkjet (clean heads, calibrate), thermal (clean heating element) (Obj 3.8)', xp: 20 },
+      { text: 'Take ExamCompass printer practice quiz (Obj 3.7)', xp: 20 },
+    ],
+    terms: ['laser printer','7-step imaging','toner','fuser','drum','transfer roller','inkjet','thermal printer','3D printer','filament','resin','duplexing','AirPrint','IPP'],
+    review: 'Recite the 7 laser printer imaging steps in order without looking. Then state which step is most likely the cause when you see ghost images.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Printers)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+    ],
+    quiz: {
+      title: 'Hardware & Printers Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'In the laser printer imaging process, which step IMMEDIATELY precedes Fusing?',
+          options: ['Charging', 'Exposing', 'Transferring', 'Cleaning'],
+          answer: 2,
+          explain: 'The order is Processing → Charging → Exposing → Developing → Transferring → Fusing → Cleaning. Toner is transferred to paper, then fused (heated) onto it permanently.',
+        },
+        {
+          q: 'A user reports their inkjet printer is producing horizontal banding on every page. What is the BEST first step?',
+          options: ['Replace the fuser', 'Run the print head cleaning utility', 'Replace the toner cartridge', 'Recalibrate the duplexer'],
+          answer: 1,
+          explain: 'Banding on inkjet output is almost always clogged or partially failed nozzles. The built-in cleaning utility forces ink through the head to clear clogs. Inkjets don\'t have toner or fusers — those are laser parts.',
+        },
+        {
+          q: 'A modern PSU shows the "80 PLUS Gold" certification. What does this primarily indicate?',
+          options: ['Maximum wattage of 800W', 'Energy efficiency under load', 'It supports gold-plated connectors', 'It has redundant rails'],
+          answer: 1,
+          explain: '80 PLUS ratings (Bronze, Silver, Gold, Platinum, Titanium) indicate the PSU\'s electrical efficiency at typical loads. Gold means roughly 87-92% efficient. Wattage and connectors are separate specs.',
+        },
+        {
+          q: 'A technician is building a small-form-factor PC and needs the smallest standard motherboard form factor. Which should they choose?',
+          options: ['ATX', 'microATX', 'Mini-ITX', 'EATX'],
+          answer: 2,
+          explain: 'Mini-ITX (170mm x 170mm) is the smallest of the standard form factors. microATX is mid-size; ATX is full-size; EATX is even larger than ATX (server/workstation).',
+        },
+        {
+          q: 'Which CPU architecture is now common in both modern smartphones AND modern laptops (especially Apple Silicon and Microsoft Surface Pro X)?',
+          options: ['x86 32-bit', 'x64 (AMD64)', 'ARM', 'PowerPC'],
+          answer: 2,
+          explain: 'ARM started in mobile but now powers Apple\'s M-series chips and Windows-on-ARM laptops. It offers strong performance per watt. x86/x64 still dominate traditional PC builds, but ARM\'s share is growing fast.',
+        },
+      ],
+    },
+  },
+  {
+    day: 14, week: 2, exam: 'core1',
+    domain: 'Review & Mock Exam',
+    title: 'Week 1-2 Review + Hardware/Networking Mock (50 Q)',
+    tasks: [
+      { text: 'Review all flashcards from Days 1-13: ports, RAID levels, RAM types, cable categories, laser steps (Obj 1.x, 2.x, 3.x)', xp: 30 },
+      { text: 'Take a 50-question hardware + networking practice exam on ExamCompass (Core 1) (Obj 1.x, 2.x, 3.x)', xp: 50 },
+      { text: 'Review every wrong answer — for each, write down WHY you got it wrong and the correct concept (Obj various)', xp: 30 },
+      { text: 'Identify your weakest domain so far: Mobile Devices, Networking, or Hardware? Plan extra time accordingly (Obj various)', xp: 15 },
+      { text: 'Watch a Professor Messer Q&A video or "Pop Quiz" episode for active recall practice (Obj various)', xp: 20 },
+    ],
+    terms: ['active recall','spaced repetition','self-assessment','weakness identification'],
+    review: 'Score yourself: hardware vs networking — where are you weakest? Block extra study time tomorrow accordingly.',
+    resources: [
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+      { label: 'Professor Messer — A+ 220-1201', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  /* ============================== WEEK 3 ============================== */
+  /* Virtualization & Cloud (11%) + Hardware/Network Troubleshooting (28%) */
+  {
+    day: 15, week: 3, exam: 'core1',
+    domain: 'Virtualization & Cloud (11%)',
+    title: 'Virtualization Concepts & Hypervisors',
+    tasks: [
+      { text: 'Type 1 (bare-metal) hypervisors: VMware ESXi, Microsoft Hyper-V Server, KVM — run directly on hardware, used in datacenters (Obj 4.2)', xp: 25 },
+      { text: 'Type 2 (hosted) hypervisors: VirtualBox, VMware Workstation, Parallels — run on top of an existing OS, used on desktops (Obj 4.2)', xp: 25 },
+      { text: 'VM resource requirements: CPU cores, RAM, disk; ensure host has enough headroom (Obj 4.2)', xp: 20 },
+      { text: 'VM use cases: cross-platform testing, security sandbox, legacy app support, dev environments, training labs (Obj 4.2)', xp: 20 },
+      { text: 'Cross-platform virtualization, snapshots/checkpoints, networking modes (NAT, bridged, host-only) (Obj 4.2)', xp: 20 },
+      { text: 'Watch Professor Messer 220-1201 Domain 4 (Virtualization) videos (Obj 4.2)', xp: 25 },
+    ],
+    terms: ['hypervisor','Type 1','Type 2','ESXi','Hyper-V','VirtualBox','VM','snapshot','NAT networking','bridged'],
+    review: 'Without notes: explain the difference between Type 1 and Type 2 hypervisors. Name a use case where each is preferred.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Virtualization)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 16, week: 3, exam: 'core1',
+    domain: 'Virtualization & Cloud (11%)',
+    title: 'Cloud Computing Models & Services',
+    tasks: [
+      { text: 'IaaS (Infrastructure-as-a-Service): VMs, storage, networking — you manage the OS up. Examples: AWS EC2, Azure VMs (Obj 4.1)', xp: 25 },
+      { text: 'PaaS (Platform-as-a-Service): runtime platform — you deploy code, provider manages OS/runtime. Examples: Heroku, Azure App Service (Obj 4.1)', xp: 25 },
+      { text: 'SaaS (Software-as-a-Service): full app — you just use it. Examples: Microsoft 365, Salesforce, Gmail (Obj 4.1)', xp: 25 },
+      { text: 'Public, private, hybrid, community clouds — know who can access each and typical use cases (Obj 4.1)', xp: 20 },
+      { text: 'Cloud characteristics: shared resources, metered/measured services, rapid elasticity, high availability, file synchronization (Obj 4.1)', xp: 20 },
+      { text: 'Take ExamCompass virt/cloud practice questions (Obj 4.1, 4.2)', xp: 25 },
+    ],
+    terms: ['IaaS','PaaS','SaaS','public cloud','private cloud','hybrid cloud','elasticity','metered','file sync'],
+    review: 'List one example each of IaaS, PaaS, and SaaS that you have personally used or heard of. Explain why a startup might pick PaaS over IaaS.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Cloud)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+    ],
+    quiz: {
+      title: 'Virtualization & Cloud Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'A developer wants to deploy a Python web app without managing servers, OS patches, or runtimes. Which cloud model is the BEST fit?',
+          options: ['IaaS', 'PaaS', 'SaaS', 'On-prem'],
+          answer: 1,
+          explain: 'PaaS provides the runtime platform — you push code and the provider handles OS, runtime, scaling. IaaS would require the developer to manage the OS. SaaS is for end-user apps, not custom code.',
+        },
+        {
+          q: 'Which is an example of a Type 1 hypervisor?',
+          options: ['VirtualBox', 'VMware Workstation', 'VMware ESXi', 'Parallels Desktop'],
+          answer: 2,
+          explain: 'ESXi runs bare-metal — directly on hardware with no host OS. VirtualBox, VMware Workstation, and Parallels are Type 2 (hosted) hypervisors that run as applications on Windows/macOS/Linux.',
+        },
+        {
+          q: 'Microsoft 365 (Word, Excel, Outlook in the browser) is an example of which cloud model?',
+          options: ['IaaS', 'PaaS', 'SaaS', 'BaaS'],
+          answer: 2,
+          explain: 'SaaS — you log in and use the application. The provider manages everything underneath. There\'s nothing to install, patch, or scale on your end.',
+        },
+        {
+          q: 'A user wants to test a Linux distro without affecting their main Windows installation. What is the SIMPLEST approach?',
+          options: ['Set up a dual boot with two SSDs', 'Use a Type 2 hypervisor like VirtualBox to run Linux as a VM', 'Wipe Windows and install Linux', 'Use a live USB only'],
+          answer: 1,
+          explain: 'A Type 2 hypervisor like VirtualBox lets the user run Linux in a window on Windows with full isolation, snapshots, and easy rollback. Dual-boot is more complex; wiping is destructive; live USB doesn\'t persist data.',
+        },
+        {
+          q: 'Which cloud characteristic describes the ability to automatically scale resources up during peak load and down during quiet periods?',
+          options: ['Metered service', 'Resource pooling', 'Rapid elasticity', 'Broad network access'],
+          answer: 2,
+          explain: 'Rapid elasticity is the auto-scaling characteristic. Metered means you pay for what you use (often paired with elasticity). Resource pooling is multi-tenancy. Broad network access just means it\'s reachable over the network.',
+        },
+      ],
+    },
+  },
+  {
+    day: 17, week: 3, exam: 'core1',
+    domain: 'HW/Network Troubleshooting (28%)',
+    title: 'Troubleshooting Hardware Symptoms — Power, POST & Boot',
+    tasks: [
+      { text: 'NOTE: V15 dropped the formal 6-step methodology from testable objectives, but it\'s still best practice. Identify → theorize → test → plan → verify → document (Obj 5.1)', xp: 15 },
+      { text: 'No power: PSU check, paperclip test (jumper green to ground), surge protector, bad outlet, dead battery (laptop) (Obj 5.1)', xp: 25 },
+      { text: 'POST failures: BIOS beeps codes (manufacturer-specific), POST card readouts, GPU not detected (Obj 5.1)', xp: 25 },
+      { text: 'Continuous reboots, lockups, smoke/burning smell — IMMEDIATELY power off; thermal or PSU failure (Obj 5.1)', xp: 25 },
+      { text: 'Heat-related: shutdowns under load, fans loud or silent, GPU/CPU temps high — clean dust, repaste, check airflow (Obj 5.1)', xp: 20 },
+      { text: 'Inaccurate system clock/date: dead CMOS battery (CR2032) — replace it (Obj 5.1)', xp: 15 },
+    ],
+    terms: ['POST','BIOS beep codes','PSU paperclip test','CMOS battery','thermal shutdown','reboot loop','overheating'],
+    review: 'A PC won\'t POST and gives a series of beeps. Walk through your first three diagnostic steps in order, without looking at notes.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Troubleshooting)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 18, week: 3, exam: 'core1',
+    domain: 'HW/Network Troubleshooting (28%)',
+    title: 'Storage, Display & Mobile Device Troubleshooting',
+    tasks: [
+      { text: 'Storage symptoms: clicking/grinding HDD (failing — back up NOW), missing drives, S.M.A.R.T. warnings, slow boot (Obj 5.2)', xp: 25 },
+      { text: 'RAID degraded: bad drive, replace and rebuild; RAID failed: multiple drives lost or controller dead — restore from backup (Obj 5.2)', xp: 25 },
+      { text: 'Display issues: dead pixels, flickering (cable, refresh rate, driver), incorrect color (calibration, color profile), no signal (Obj 5.3)', xp: 25 },
+      { text: 'Burn-in (OLED), image persistence (LCD); projector lamp failure; resolution mismatches (Obj 5.3)', xp: 20 },
+      { text: 'Mobile device issues: poor battery life, swelling (DANGER), overheating, dim or no display, ghost touch, crashing apps (Obj 5.4)', xp: 25 },
+      { text: 'Take CrucialExams troubleshooting practice questions (Obj 5.2, 5.3, 5.4)', xp: 25 },
+    ],
+    terms: ['S.M.A.R.T.','clicking HDD','RAID degraded','RAID failed','dead pixel','burn-in','ghost touch','swelling battery'],
+    review: 'A laptop running OLED displays a faint outline of the Windows taskbar in the wrong place. What\'s happening, and what\'s the prevention?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (HW Troubleshooting)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+    ],
+  },
+  {
+    day: 19, week: 3, exam: 'core1',
+    domain: 'HW/Network Troubleshooting (28%)',
+    title: 'Network Troubleshooting & Tools',
+    tasks: [
+      { text: 'Tools: ipconfig (Windows), ifconfig/ip a (Linux), ping, tracert/traceroute, nslookup/dig, netstat (Obj 5.5)', xp: 30 },
+      { text: 'Physical tools: cable tester, toner probe (locate cable in wall), Wi-Fi analyzer (channel/signal), loopback plug, network tap (Obj 2.8)', xp: 25 },
+      { text: 'Symptoms: limited connectivity (got APIPA — DHCP failed), no internet (DNS or gateway issue), slow speeds (saturation/duplex mismatch) (Obj 5.5)', xp: 30 },
+      { text: 'Wireless issues: weak signal, channel interference, wrong band, MAC filter, AP misconfig, hidden SSID (Obj 5.5)', xp: 25 },
+      { text: 'High latency, packet loss, intermittent connectivity — use ping -t and tracert to isolate the hop (Obj 5.5)', xp: 25 },
+    ],
+    terms: ['ipconfig','ping','tracert','nslookup','netstat','APIPA','duplex mismatch','tone probe','Wi-Fi analyzer','loopback plug'],
+    review: 'A user has APIPA (169.254.x.x). What does this tell you, and what would your first three actions be?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Network Troubleshooting)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 20, week: 3, exam: 'core1',
+    domain: 'HW/Network Troubleshooting (28%)',
+    title: 'Printer Troubleshooting (Heavily Tested)',
+    tasks: [
+      { text: 'Laser: streaks (drum/scratched), faded print (low toner), ghost images (cleaning step failed), accordion fold (paper path), creased pages (Obj 5.6)', xp: 30 },
+      { text: 'Inkjet: banding (clogged head — clean), low quality (low ink, bad alignment), paper jam (rollers worn) (Obj 5.6)', xp: 25 },
+      { text: 'Thermal: faded receipts (heating element wear, wrong paper), no print (paper inserted upside down) (Obj 5.6)', xp: 15 },
+      { text: '3D: bed adhesion failure (level the bed!), stringing (retraction settings), warping (heated bed, enclosure) (Obj 5.6)', xp: 15 },
+      { text: 'Print queue: stuck jobs, restart Print Spooler service, clear queue, check user permissions (Obj 5.6)', xp: 25 },
+      { text: 'Print server, network printer connectivity issues — ping the printer IP first (Obj 5.6)', xp: 20 },
+      { text: 'Take CrucialExams printer troubleshooting practice quiz (Obj 5.6)', xp: 25 },
+    ],
+    terms: ['streaks','ghost image','accordion fold','banding','print spooler','toner low','duplexer','print queue'],
+    review: 'A laser printer prints faint ghost images of the previous page on every new page. Which step in the imaging process is failing? What part is likely worn?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Printers)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+    ],
+    quiz: {
+      title: 'Troubleshooting Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'A user reports their PC keeps rebooting after about 10 minutes of gaming. The fans run loud just before the reboot. What is the MOST likely cause?',
+          options: ['Failing hard drive', 'Overheating CPU/GPU', 'Bad RAM', 'Corrupted Windows installation'],
+          answer: 1,
+          explain: 'Reboots specifically during high-load tasks with loud fans = thermal protection kicking in. Check thermal paste, dust buildup in fans/heatsinks, and case airflow. Failing storage usually shows as freezes, slow opens, or BSODs, not load-triggered reboots.',
+        },
+        {
+          q: 'A workstation has a 169.254.x.x IP address. What does this indicate?',
+          options: ['Static IP misconfiguration', 'The DHCP server didn\'t respond, so the OS assigned APIPA', 'A virus has changed the IP', 'IPv6 is misconfigured'],
+          answer: 1,
+          explain: '169.254.0.0/16 is APIPA — Automatic Private IP Addressing. Windows assigns this when DHCP fails. Check the cable, switch, DHCP server, and link lights.',
+        },
+        {
+          q: 'A laser printer produces pages with vertical streaks down the left side every print. What part is MOST likely the issue?',
+          options: ['Paper feed roller', 'Toner cartridge / drum', 'Fuser', 'Network card'],
+          answer: 1,
+          explain: 'Vertical streaks are typically a scratched drum or a defective toner cartridge. Replace the toner first (most cartridges have integrated drums in modern printers).',
+        },
+        {
+          q: 'A technician suspects a Wi-Fi performance issue is caused by channel overlap with neighboring networks. Which tool is BEST?',
+          options: ['Tone probe', 'Wi-Fi analyzer', 'Cable tester', 'Loopback plug'],
+          answer: 1,
+          explain: 'A Wi-Fi analyzer shows nearby SSIDs, their channels, and signal strength — exactly what you need to pick a quieter channel. Tone probes find specific cables in walls. Cable testers test wired Cat cabling.',
+        },
+        {
+          q: 'A user\'s OLED phone shows a faint permanent outline of the keyboard layout when displaying solid colors. What is this called and what is the cause?',
+          options: ['Dead pixels caused by physical damage', 'Burn-in from prolonged static content display', 'Backlight bleed common to OLED', 'A driver corruption issue'],
+          answer: 1,
+          explain: 'OLED burn-in happens when static content (status bars, keyboard, app UI) is displayed for long periods, causing uneven pixel aging. Prevention: vary content, lower brightness, use dark mode, enable pixel-shifting features.',
+        },
+      ],
+    },
+  },
+  {
+    day: 21, week: 3, exam: 'core1',
+    domain: 'HW/Network Troubleshooting (28%)',
+    title: 'Video, Display & Mobile Issues — Deep Dive',
+    tasks: [
+      { text: 'No video output: check cable, monitor power, GPU seating, integrated vs discrete GPU (BIOS setting), wrong input source (Obj 5.3)', xp: 25 },
+      { text: 'Distorted/dim/flickering: refresh rate mismatch, bad cable (try another), driver issue, failing backlight (Obj 5.3)', xp: 20 },
+      { text: 'Image persistence (LCD) vs burn-in (OLED) — temporary vs permanent; pixel-shift settings on OLED help (Obj 5.3)', xp: 15 },
+      { text: 'Multiple monitor issues: extend vs duplicate, refresh rate sync, scaling differences across DPI (Obj 5.3)', xp: 20 },
+      { text: 'Mobile-specific: signal drop (move from steel/concrete), slow performance (storage full, bg apps, malware), unable to decrypt email (cert/encryption issue) (Obj 5.4)', xp: 25 },
+      { text: 'Mobile connectivity: GPS not working, autorotate stuck, crashing apps, OS update failures (Obj 5.4)', xp: 20 },
+      { text: 'Watch a Professor Messer "Pop Quiz" or scenario walkthrough video (Obj 5.x)', xp: 25 },
+    ],
+    terms: ['no signal','refresh rate','image persistence','burn-in','GPU passthrough','autorotate','signal drop'],
+    review: 'A monitor shows "no signal" but the PC is on and other monitors work fine. Walk through your top 4 checks in order.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201 (Display Troubleshooting)', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+
+  /* ============================== WEEK 4 ============================== */
+  /* PBQ practice + Core 1 mock */
+  {
+    day: 22, week: 4, exam: 'core1',
+    domain: 'PBQ Practice',
+    title: 'Performance-Based Questions (PBQ) — Day 1',
+    tasks: [
+      { text: 'PBQs simulate real tasks: drag-and-drop port-to-protocol, configure a SOHO router, build a RAID array, troubleshoot via decision tree (Obj all)', xp: 25 },
+      { text: 'Practice scenario: a user describes a problem; you have to pick which troubleshooting step comes next (Obj 5.x)', xp: 25 },
+      { text: 'Practice scenario: assemble a custom workstation for "video editor" vs "office worker" — pick CPU/RAM/storage/GPU (Obj 3.4)', xp: 25 },
+      { text: 'Practice scenario: identify a port from a picture (USB-C, Thunderbolt 4, RJ45, DisplayPort) (Obj 1.2, 3.1)', xp: 20 },
+      { text: 'Take ExamCompass PBQ-style practice questions (Obj all)', xp: 30 },
+    ],
+    terms: ['PBQ','simulation','drag-and-drop','scenario','decision tree'],
+    review: 'PBQs reward methodical thinking. If you\'re stuck on one, FLAG IT and come back. Don\'t burn 10 minutes on one PBQ.',
+    resources: [
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+    ],
+  },
+  {
+    day: 23, week: 4, exam: 'core1',
+    domain: 'PBQ Practice',
+    title: 'PBQ Practice — Day 2: Networking Scenarios',
+    tasks: [
+      { text: 'Configure a SOHO wireless router: SSID, WPA3 encryption, change default password, channel selection, port forwarding (Obj 2.9)', xp: 30 },
+      { text: 'Subnet mask matching: given an IP and required hosts, pick the correct mask (e.g., need 100 hosts → /25 = 255.255.255.128) (Obj 2.5)', xp: 25 },
+      { text: 'Map ports → protocols → TCP/UDP under timed pressure — aim for under 30 seconds total (Obj 2.1)', xp: 25 },
+      { text: 'Diagram a small network: where does the firewall go? Where do the switches go? (Obj 2.2)', xp: 20 },
+      { text: 'Troubleshoot: a remote office can\'t reach the file server. Walk through the layers (cable → switch → router → firewall → server) (Obj 5.6)', xp: 25 },
+    ],
+    terms: ['SOHO','WPA3','port forwarding','subnetting','network diagram','OSI layers'],
+    review: 'On a real exam PBQ, you should be skimming and identifying which type of question it is within 10 seconds. Practice that recognition.',
+    resources: [
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+    ],
+  },
+  {
+    day: 24, week: 4, exam: 'core1',
+    domain: 'PBQ Practice',
+    title: 'PBQ Practice — Day 3: Hardware & Storage Sims',
+    tasks: [
+      { text: 'Pick the right RAM module for a system: form factor, speed, capacity, ECC vs non-ECC, DDR4 vs DDR5 (Obj 3.2)', xp: 25 },
+      { text: 'Pick the right RAID level for a scenario: read-heavy, write-heavy, fault-tolerant, budget-constrained (Obj 3.3)', xp: 25 },
+      { text: 'Identify cable type from photo or description: Cat 6a, USB-C, HDMI, DisplayPort, fiber LC (Obj 3.1)', xp: 20 },
+      { text: 'Place internal components on a motherboard: CPU socket, RAM slots, M.2 slot, 24-pin ATX, SATA ports (Obj 3.4)', xp: 25 },
+      { text: 'Take a 25-question Core 1 practice exam, time yourself (~30 minutes) (Obj all)', xp: 35 },
+    ],
+    terms: ['form factor','PBQ recognition','timed practice','active matching'],
+    review: 'After today, you should be able to look at a generic motherboard photo and call out at least 6 component locations.',
+    resources: [
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+    ],
+  },
+  {
+    day: 25, week: 4, exam: 'core1',
+    domain: 'PBQ Practice',
+    title: 'PBQ Practice — Day 4: Mobile + Printer Sims',
+    tasks: [
+      { text: 'Configure a mobile device for corporate email: server name, port, SSL/TLS, account type (Exchange/IMAP) (Obj 1.3)', xp: 25 },
+      { text: 'Troubleshoot a printer: walk through laser troubleshooting decision tree from symptom to fix (Obj 5.6)', xp: 25 },
+      { text: 'Match a printer issue to the correct imaging step that\'s failing (e.g., transfer step → smudges) (Obj 3.7, 5.6)', xp: 20 },
+      { text: 'Configure printer sharing: local share vs network printer vs Print Server vs cloud printing (Obj 3.7)', xp: 20 },
+      { text: 'Mobile MDM scenario: implement BYOD with corporate access — what policies are required? (Obj 1.3)', xp: 25 },
+      { text: 'Take an ExamCompass mobile + printer mixed quiz (Obj 1.x, 3.7, 5.6)', xp: 25 },
+    ],
+    terms: ['Exchange ActiveSync','MDM','printer sharing','imaging step diagnosis'],
+    review: 'Practice the laser printer 7-step list one more time. Cold recall is now your goal.',
+    resources: [
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+    ],
+  },
+  {
+    day: 26, week: 4, exam: 'core1',
+    domain: 'PBQ Practice',
+    title: 'PBQ Practice — Day 5: Mixed Drills',
+    tasks: [
+      { text: 'Take a 50-question mixed Core 1 practice exam under timed conditions (50 minutes) (Obj all)', xp: 50 },
+      { text: 'Review every wrong answer and write a 1-line "lesson learned" for each (Obj various)', xp: 25 },
+      { text: 'Re-attempt your top 5 weakest topics with focused 10-question drills (Obj various)', xp: 25 },
+      { text: 'Build/refresh a personal cheat sheet: ports, RAID, RAM, laser steps, common acronyms (Obj various)', xp: 20 },
+    ],
+    terms: ['mixed drill','timed practice','focused drill','cheat sheet'],
+    review: 'Your cheat sheet should fit on one side of paper. If it spills over, prune.',
+    resources: [
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+    ],
+  },
+  {
+    day: 27, week: 4, exam: 'core1',
+    domain: 'PBQ Practice',
+    title: 'PBQ Practice — Day 6: Weak Areas & Final Review',
+    tasks: [
+      { text: 'Identify your 2 weakest domains from this week\'s drills. Spend most of today on those (Obj various)', xp: 30 },
+      { text: 'Re-watch Professor Messer videos for those weak topics — fast-forward through known content (Obj various)', xp: 25 },
+      { text: 'Drill 30 questions on weakest domain only. Score yourself. Repeat if under 80% (Obj various)', xp: 30 },
+      { text: 'Light review of strong areas — don\'t over-study what you already know (Obj various)', xp: 20 },
+      { text: 'Get a good night\'s sleep tonight. Tomorrow is your full mock exam (Obj — self-care)', xp: 15 },
+    ],
+    terms: ['weak area focus','active recall','spaced repetition','rest before exam'],
+    review: 'You\'re ready when your weakest domain hits 80%+ on practice. If not yet, that\'s your priority.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1201', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+    ],
+  },
+  {
+    day: 28, week: 4, exam: 'core1',
+    domain: 'Mock Exam',
+    title: 'Full 90-Question Core 1 (220-1201) Mock Exam',
+    tasks: [
+      { text: 'Take a FULL 90-question Core 1 practice exam under 90-minute timed conditions. Phone away. No tabs (Obj all)', xp: 60 },
+      { text: 'Score yourself. 80%+ = on track for the real exam. Below 75% = need more time on weak areas (Obj all)', xp: 20 },
+      { text: 'Review every wrong answer. Don\'t just read the explanation — re-derive WHY the right answer is right (Obj various)', xp: 30 },
+      { text: 'Identify any pattern in wrong answers: a single domain? Reading too fast? Misreading "EXCEPT" or "NOT"? (Obj various)', xp: 15 },
+      { text: 'Make a final exam-day cheat sheet (mental, not paper) — top 20 things you must walk in knowing (Obj various)', xp: 20 },
+    ],
+    terms: ['full mock','self-assessment','pattern analysis','exam-day prep'],
+    review: 'A passing score on the real exam is 675/900 (about 75%). On practice, aim for 80%+ to give yourself a margin.',
+    resources: [
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+      { label: 'CompTIA — Schedule Your Exam', url: 'https://www.comptia.org/certifications/a' },
+    ],
+  },
+  /* ============================== WEEK 5 ============================== */
+  /* Core 2 Begins — Operating Systems (28%) */
+  {
+    day: 29, week: 5, exam: 'core2',
+    domain: 'Operating Systems (28%)',
+    title: 'OS Types, Filesystems & Lifecycle',
+    tasks: [
+      { text: 'Workstation OSs: Windows, macOS, Linux, ChromeOS — typical use cases for each (Obj 1.1)', xp: 25 },
+      { text: 'Mobile OSs: iOS (iPhone), iPadOS (iPad), Android (most non-Apple phones/tablets) (Obj 1.1)', xp: 20 },
+      { text: 'Filesystems: NTFS (Windows default), ReFS (resilient, server-grade), FAT32 (4GB file limit), exFAT (large files, cross-OS) (Obj 1.1)', xp: 30 },
+      { text: 'More filesystems: ext4 (Linux default), XFS (Linux/server), APFS (macOS modern, replaces HFS+) (Obj 1.1)', xp: 25 },
+      { text: 'Vendor lifecycle: end-of-life, end-of-mainstream-support, security updates only — implications for security/compliance (Obj 1.1)', xp: 20 },
+      { text: 'Compatibility concerns when sharing files across OSes/filesystems (e.g., NTFS on macOS = read-only by default) (Obj 1.1)', xp: 15 },
+      { text: 'Watch Professor Messer 220-1202 Domain 1 (Operating Systems) — types & filesystems (Obj 1.1)', xp: 25 },
+    ],
+    terms: ['NTFS','ReFS','FAT32','exFAT','ext4','XFS','APFS','iPadOS','ChromeOS','EOL','end-of-life'],
+    review: 'List the default filesystem for: Windows (workstation), Linux modern, macOS modern, USB stick for cross-platform sharing, server with very large datasets.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 Free Video Course', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+      { label: 'CompTIA Official 220-1202 Exam Objectives PDF', url: 'https://www.comptia.org/certifications/a' },
+    ],
+  },
+  {
+    day: 30, week: 5, exam: 'core2',
+    domain: 'Operating Systems (28%)',
+    title: 'Windows Editions, Installation & Upgrades',
+    tasks: [
+      { text: 'Windows 11 editions: Home (no domain join), Pro (domain, BitLocker, RDP host, Group Policy), Pro for Workstations, Enterprise (Obj 1.3)', xp: 30 },
+      { text: 'Windows 10 vs 11 differences: TPM 2.0 required for 11, UEFI required, Secure Boot, design differences (centered taskbar, rounded corners) (Obj 1.3)', xp: 25 },
+      { text: 'Installation: clean install vs in-place upgrade vs repair install vs feature update — when each applies (Obj 1.2)', xp: 25 },
+      { text: 'Boot methods: USB, network (PXE), internal partition, recovery media, multiboot, optical (legacy) (Obj 1.2)', xp: 20 },
+      { text: 'System requirements: minimum vs recommended; Windows 11 requires 64-bit, TPM 2.0, 4GB RAM, 64GB storage (Obj 1.2)', xp: 20 },
+      { text: 'Image deployment: Sysprep, MDT, WDS, Microsoft Endpoint Configuration Manager — what they do at a high level (Obj 1.2)', xp: 25 },
+    ],
+    terms: ['Windows 11 Home','Pro','Enterprise','TPM 2.0','UEFI','Secure Boot','clean install','in-place upgrade','PXE','Sysprep'],
+    review: 'Without notes: state at least three features Windows Pro has that Home does not. Then list the minimum hardware Windows 11 requires.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Windows Editions/Install)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 31, week: 5, exam: 'core2',
+    domain: 'Operating Systems (28%)',
+    title: 'Windows Tools: Task Manager, MMC, Settings',
+    tasks: [
+      { text: 'Task Manager: Processes (kill rogue), Performance (CPU/RAM/disk/network/GPU graphs), Startup (disable for boot speed), Users, Services (Obj 1.4)', xp: 30 },
+      { text: 'MMC snap-ins: Event Viewer (logs), Disk Management (partitions), Task Scheduler, Device Manager, Local Users & Groups, Print Mgmt (Obj 1.4)', xp: 30 },
+      { text: 'Other tools: System Information (msinfo32), Resource Monitor (resmon), msconfig, regedit (use with extreme caution!) (Obj 1.4)', xp: 25 },
+      { text: 'Disk Cleanup, Disk Defragmenter (HDD only — never run on SSD!) (Obj 1.4)', xp: 15 },
+      { text: 'Settings vs Control Panel: most things have moved to Settings in Windows 11; some legacy items still in Control Panel (Obj 1.6)', xp: 20 },
+      { text: 'Windows Settings categories: System, Bluetooth & devices, Network, Personalization, Apps, Accounts, Time, Privacy & security, Update (Obj 1.6)', xp: 20 },
+    ],
+    terms: ['Task Manager','MMC','Event Viewer','Device Manager','msconfig','regedit','resmon','Disk Management','Settings vs Control Panel'],
+    review: 'A user reports Windows boots slowly. Which Task Manager tab do you check first, and why? What do you look for there?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Windows Tools)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 32, week: 5, exam: 'core2',
+    domain: 'Operating Systems (28%)',
+    title: 'Windows Command Line (Critical for the Exam)',
+    tasks: [
+      { text: 'Navigation: cd (change dir), dir (list), md/mkdir (make dir), rd/rmdir (remove dir), del (delete file), copy/xcopy/robocopy (Obj 1.5)', xp: 30 },
+      { text: 'Networking: ipconfig (/all, /release, /renew, /flushdns), ping, tracert, pathping, nslookup, netstat (-an, -b), net use (Obj 1.5)', xp: 35 },
+      { text: 'System: chkdsk (check disk for errors), sfc /scannow (system file checker), DISM (image servicing), gpupdate /force (Obj 1.5)', xp: 30 },
+      { text: 'User mgmt: net user (list/manage local users), shutdown (-r restart, -s shutdown, -t time, -a abort) (Obj 1.5)', xp: 20 },
+      { text: 'Practice each command in your own terminal — don\'t just read about them (Obj 1.5)', xp: 20 },
+      { text: 'Take CrucialExams Windows command line practice questions (Obj 1.5)', xp: 20 },
+    ],
+    terms: ['ipconfig','ping','tracert','nslookup','netstat','chkdsk','sfc','DISM','gpupdate','robocopy','shutdown'],
+    review: 'You\'re troubleshooting "DNS isn\'t resolving" on a Windows PC. List the 3 commands you\'d run in order and what each tells you.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Command Line)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+      { label: 'CrucialExams — A+ 220-1202 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1202/practice-tests-practice-questions' },
+    ],
+    quiz: {
+      title: 'Windows Command Line Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'Which command flushes the local DNS resolver cache on Windows?',
+          options: ['ipconfig /release', 'ipconfig /renew', 'ipconfig /flushdns', 'nslookup -clear'],
+          answer: 2,
+          explain: 'ipconfig /flushdns clears the local DNS cache, forcing Windows to re-query DNS servers. Useful when a site\'s IP has changed but the local cache still has the old one.',
+        },
+        {
+          q: 'A technician needs to verify the integrity of Windows system files and repair any corrupted ones. Which command is BEST?',
+          options: ['chkdsk /f', 'sfc /scannow', 'DISM /Online /Cleanup-Image /RestoreHealth', 'gpupdate /force'],
+          answer: 1,
+          explain: 'sfc /scannow scans and repairs Windows system files. chkdsk fixes filesystem errors but not OS files. DISM is for the underlying servicing image and is often run before sfc.',
+        },
+        {
+          q: 'Which command shows ALL active TCP connections AND the executables that opened them?',
+          options: ['netstat -a', 'netstat -an', 'netstat -b', 'netstat -r'],
+          answer: 2,
+          explain: 'netstat -b shows the executable for each connection (requires admin). -a shows all connections, -n shows numeric, -r shows the routing table.',
+        },
+        {
+          q: 'A user wants to copy a folder structure including subfolders, file permissions, and timestamps from one drive to another efficiently. Which is BEST?',
+          options: ['copy', 'xcopy', 'robocopy', 'move'],
+          answer: 2,
+          explain: 'robocopy ("Robust Copy") is purpose-built for this: handles long paths, retries on failure, copies ACLs/timestamps/attributes, supports mirroring. xcopy is older and has more limitations. copy is single-file/simple.',
+        },
+        {
+          q: 'A technician schedules a remote shutdown in 60 seconds but realizes they ran it on the wrong PC. How do they cancel?',
+          options: ['shutdown -s -t 0', 'shutdown -r', 'shutdown -a', 'taskkill shutdown'],
+          answer: 2,
+          explain: 'shutdown -a aborts a pending shutdown that has been issued but hasn\'t executed yet. The window for cancellation is whatever delay was set with -t.',
+        },
+      ],
+    },
+  },
+  {
+    day: 33, week: 5, exam: 'core2',
+    domain: 'Operating Systems (28%)',
+    title: 'macOS Features, Tools & Basics',
+    tasks: [
+      { text: 'macOS UI: Dock, Finder, Mission Control, Spotlight (Cmd+Space), Notification Center, Control Center (Obj 1.8)', xp: 25 },
+      { text: 'System Preferences (now System Settings on Sonoma+): users, network, security, software updates, displays (Obj 1.8)', xp: 25 },
+      { text: 'Time Machine (built-in backup), iCloud sync, Apple ID, FileVault (full-disk encryption), Gatekeeper (app verification) (Obj 1.8)', xp: 25 },
+      { text: 'macOS app installation: App Store (sandboxed) vs .dmg installers (drag to Applications folder) vs .pkg installers (Obj 1.8)', xp: 20 },
+      { text: 'Boot/recovery: Recovery Mode (Cmd+R), Disk Utility, Terminal (Bash/zsh), Activity Monitor (Task Manager equivalent) (Obj 1.8)', xp: 25 },
+      { text: 'Watch Professor Messer 220-1202 (macOS) videos (Obj 1.8)', xp: 20 },
+    ],
+    terms: ['Dock','Finder','Spotlight','Time Machine','iCloud','FileVault','Gatekeeper','Recovery Mode','Activity Monitor'],
+    review: 'A macOS user wants to encrypt their entire drive. What\'s the feature name and where do they enable it?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (macOS)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 34, week: 5, exam: 'core2',
+    domain: 'Operating Systems (28%)',
+    title: 'Linux Basics & Common Commands',
+    tasks: [
+      { text: 'Linux philosophy: open source, command-line first, kernels (Linux) vs distributions (Ubuntu, Fedora, RHEL, etc.) (Obj 1.9)', xp: 20 },
+      { text: 'Navigation: ls (list), cd (change dir), pwd (print working dir), cat (show file), grep (search), find (Obj 1.9)', xp: 30 },
+      { text: 'File ops: cp (copy), mv (move/rename), rm (remove), mkdir, rmdir, chmod (permissions), chown (ownership) (Obj 1.9)', xp: 30 },
+      { text: 'Permissions: rwx for user/group/other; chmod 755 = rwxr-xr-x; understand octal vs symbolic (Obj 1.9)', xp: 25 },
+      { text: 'Process mgmt: ps, top/htop, kill, killall — find and stop runaway processes (Obj 1.9)', xp: 20 },
+      { text: 'System: sudo (run as root), apt/dnf/yum (package managers), systemctl (service mgmt), shutdown, reboot (Obj 1.9)', xp: 25 },
+      { text: 'Networking: ip a (or ifconfig — old), ping, dig, ss/netstat, ssh, scp (Obj 1.9)', xp: 20 },
+    ],
+    terms: ['ls','cd','grep','chmod','chown','sudo','apt','systemctl','ssh','scp','rwx','octal'],
+    review: 'Without notes: explain what chmod 755 means in plain English. Then explain when you\'d use sudo vs su.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Linux)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 35, week: 5, exam: 'core2',
+    domain: 'Operating Systems (28%)',
+    title: 'Application Installation & Cloud Productivity Tools',
+    tasks: [
+      { text: 'App requirements: CPU, RAM, VRAM, storage, 32-bit vs 64-bit compatibility, GPU minimums, hardware tokens (Obj 1.10)', xp: 25 },
+      { text: 'Distribution methods: physical media (legacy), downloadable installer, mountable ISO, image deployment (corporate) (Obj 1.10)', xp: 20 },
+      { text: 'Verify OS/version compatibility before install — avoid breakage. Plan installs to preserve user data (Obj 1.10)', xp: 20 },
+      { text: 'Cloud productivity: Microsoft 365 (Outlook, OneDrive, Teams), Google Workspace (Gmail, Drive, Meet), iCloud (Obj 1.11)', xp: 25 },
+      { text: 'Configure cloud-based email: server, port, encryption (TLS), account type. M365 and Google use modern OAuth (Obj 1.11)', xp: 20 },
+      { text: 'Cloud storage clients: OneDrive, Google Drive, iCloud Drive — selective sync, Files On-Demand (Obj 1.11)', xp: 20 },
+      { text: 'Take ExamCompass OS practice questions (Obj 1.10, 1.11)', xp: 25 },
+    ],
+    terms: ['Microsoft 365','Google Workspace','OneDrive','iCloud Drive','OAuth','selective sync','Files On-Demand','TLS'],
+    review: 'A user wants Outlook to sync their work email to multiple devices. Modern auth (OAuth) is required. Walk through what they\'ll need to know.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Apps & Cloud)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+    ],
+  },
+
+  /* ============================== WEEK 6 ============================== */
+  /* Security (28%) */
+  {
+    day: 36, week: 6, exam: 'core2',
+    domain: 'Security (28%)',
+    title: 'Physical & Logical Security Concepts',
+    tasks: [
+      { text: 'Physical: access control vestibule (mantrap), badge readers, video surveillance, motion sensors, alarm systems, door locks, equipment locks, fences, bollards (Obj 2.1)', xp: 30 },
+      { text: 'Lighting and security guards as deterrents; magnetometers (metal detectors); biometrics (fingerprint, face, retina) (Obj 2.1)', xp: 20 },
+      { text: 'Logical security: principle of least privilege (PoLP), ACLs, role-based access, time-based access (Obj 2.1)', xp: 25 },
+      { text: 'Authentication factors: something you know (password), have (token/badge), are (biometric) — multi-factor uses 2+ (Obj 2.1)', xp: 25 },
+      { text: 'MFA implementations: SMS (weakest), authenticator app TOTP, hardware token (YubiKey), passkey (FIDO2 — strongest) (Obj 2.1)', xp: 25 },
+      { text: 'Active Directory: domain, OU, group policy (GPO), security groups, joining a domain (Obj 2.1)', xp: 20 },
+    ],
+    terms: ['vestibule','PoLP','ACL','MFA','TOTP','passkey','FIDO2','Active Directory','GPO','OU','biometric'],
+    review: 'A bank wants strong MFA for online banking. SMS is acceptable but suboptimal. Why? What\'s a stronger alternative and why is it stronger?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Security Concepts)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 37, week: 6, exam: 'core2',
+    domain: 'Security (28%)',
+    title: 'Wireless Security & Authentication',
+    tasks: [
+      { text: 'Wi-Fi protocols: WEP (broken — never use), WPA (deprecated), WPA2 (still common, AES), WPA3 (current standard, SAE) (Obj 2.3)', xp: 30 },
+      { text: 'Authentication: PSK (pre-shared key — home networks), 802.1X / RADIUS (enterprise — per-user) (Obj 2.3)', xp: 25 },
+      { text: 'Best practices: change default SSID, change default admin password, disable WPS (vulnerable!), enable WPA3 if available (Obj 2.3)', xp: 25 },
+      { text: 'MAC filtering as defense-in-depth (NOT a primary control — easily spoofed) (Obj 2.3)', xp: 15 },
+      { text: 'Hidden SSID does not provide real security (just makes the AP slightly less convenient to find) (Obj 2.3)', xp: 15 },
+      { text: 'Take ExamCompass wireless security practice quiz (Obj 2.3)', xp: 25 },
+    ],
+    terms: ['WPA2','WPA3','SAE','PSK','802.1X','RADIUS','WPS','MAC filtering','SSID broadcast'],
+    review: 'A small office wants the most secure Wi-Fi setup possible. List the top 5 settings you\'d enforce.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Wireless Security)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+    ],
+  },
+  {
+    day: 38, week: 6, exam: 'core2',
+    domain: 'Security (28%)',
+    title: 'Malware Types & Detection',
+    tasks: [
+      { text: 'Malware types: ransomware (encrypts, demands payment), trojans (disguised), keyloggers, rootkits (kernel-level), spyware (Obj 2.4)', xp: 30 },
+      { text: 'More malware: cryptominers (steal CPU/GPU for crypto), viruses (need host file), worms (self-spreading), botnets (remote-controlled army) (Obj 2.4)', xp: 30 },
+      { text: 'Detection/prevention: antivirus (signature-based), antimalware (behavior-based), EDR (Endpoint Detection & Response), Windows Defender (Obj 2.4)', xp: 25 },
+      { text: 'Mitigation: software firewalls, end-user education, OS reinstall (nuclear option), Windows Recovery Environment (Obj 2.4)', xp: 20 },
+      { text: 'Common attack vectors: email attachments, malicious links, compromised websites (drive-by), USB drops, software supply chain (Obj 2.4)', xp: 25 },
+    ],
+    terms: ['ransomware','trojan','keylogger','rootkit','cryptominer','virus','worm','botnet','EDR','Defender','signature-based'],
+    review: 'A user clicks a link in an email and now their files have a .locked extension and there\'s a ransom note. What is this, and what\'s the FIRST action?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Malware)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 39, week: 6, exam: 'core2',
+    domain: 'Security (28%)',
+    title: 'Social Engineering, Threats & Vulnerabilities',
+    tasks: [
+      { text: 'Social engineering: phishing (mass email), spear phishing (targeted), whaling (CEO target), vishing (voice), smishing (SMS) (Obj 2.5)', xp: 30 },
+      { text: 'In-person: shoulder surfing, tailgating (unauthorized entry behind authorized person), impersonation, dumpster diving (Obj 2.5)', xp: 25 },
+      { text: 'Evil twin (rogue AP impersonating real one), watering hole (compromise sites the target visits) (Obj 2.5)', xp: 20 },
+      { text: 'Network attacks: DoS, DDoS, on-path (MITM), spoofing (IP/MAC/email), DNS poisoning (Obj 2.5)', xp: 25 },
+      { text: 'Application attacks: SQL injection (input validation failure), XSS (cross-site scripting), buffer overflow, zero-day (Obj 2.5)', xp: 25 },
+      { text: 'Password attacks: brute force, dictionary, rainbow tables, credential stuffing — defended by length + MFA + lockouts (Obj 2.5)', xp: 25 },
+    ],
+    terms: ['phishing','vishing','smishing','tailgating','evil twin','MITM','SQLi','XSS','zero-day','credential stuffing','spear phishing'],
+    review: 'A user receives a call from "IT" asking for their password to fix an "urgent issue." Identify the attack and the correct response.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Social Engineering)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+    quiz: {
+      title: 'Security Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'A user gets an email appearing to be from their CEO asking to wire $50,000 urgently to close a deal. The email signature is correct but the reply-to address is slightly off. What attack is this?',
+          options: ['Phishing', 'Spear phishing / Whaling (Business Email Compromise)', 'Ransomware', 'DoS'],
+          answer: 1,
+          explain: 'This is spear phishing targeting the CEO\'s authority — also known as whaling or BEC (Business Email Compromise). Subtle reply-to address mismatch is the giveaway. The correct response: verify out-of-band (call the CEO directly).',
+        },
+        {
+          q: 'Which Wi-Fi security protocol is currently the strongest standard for new deployments?',
+          options: ['WEP', 'WPA', 'WPA2-Personal', 'WPA3'],
+          answer: 3,
+          explain: 'WPA3 is the current standard, replacing WPA2. It uses SAE (Simultaneous Authentication of Equals) which is resistant to offline brute-force attacks that can break weak WPA2 passwords. WEP and WPA are obsolete and broken.',
+        },
+        {
+          q: 'A user notices their CPU is at 100% even when idle, fans are loud, and PC is sluggish. Their AV is up to date. What malware type is most consistent?',
+          options: ['Ransomware', 'Cryptominer', 'Keylogger', 'Worm'],
+          answer: 1,
+          explain: 'Cryptominers steal CPU/GPU cycles to mine cryptocurrency. Symptoms: high resource use, heat, slowdown — but no obvious data damage. They often evade signature-based AV. Behavior-based EDR detects them better.',
+        },
+        {
+          q: 'A receptionist holds the door open for a stranger carrying a ladder who says they\'re "here to fix the lights." Which social engineering technique was used?',
+          options: ['Phishing', 'Tailgating + impersonation', 'Shoulder surfing', 'Vishing'],
+          answer: 1,
+          explain: 'The intruder gained unauthorized physical access (tailgating) by impersonating a tradesperson. Mitigation: badge access required for everyone, escorts for visitors, employee training to challenge unfamiliar people.',
+        },
+        {
+          q: 'A web app accepts user input that\'s passed directly into a database query without sanitization. An attacker exploits this to extract the entire user table. What attack is this?',
+          options: ['XSS', 'SQL injection', 'CSRF', 'On-path attack'],
+          answer: 1,
+          explain: 'SQL injection: malicious input is interpreted as part of the SQL query. Defense: parameterized queries / prepared statements, input validation, least-privilege DB accounts. XSS targets other USERS via injected scripts; SQLi targets the database directly.',
+        },
+      ],
+    },
+  },
+  {
+    day: 40, week: 6, exam: 'core2',
+    domain: 'Security (28%)',
+    title: 'Securing Windows: Permissions, BitLocker, Browser',
+    tasks: [
+      { text: 'Users and groups: Standard, Administrator, Guest, Power User; principle of least privilege (Obj 2.2)', xp: 25 },
+      { text: 'NTFS vs Share permissions: NTFS = file/folder level, applies always; Share = network access only; most-restrictive wins (Obj 2.2)', xp: 30 },
+      { text: 'BitLocker (full disk encryption — needs TPM), BitLocker To Go (USB drives), EFS (per-file encryption) (Obj 2.2)', xp: 25 },
+      { text: 'UAC (User Account Control): Run as administrator vs standard user; UAC prompts on elevation (Obj 2.2)', xp: 20 },
+      { text: 'Windows login options: password, PIN, fingerprint, facial recognition (Windows Hello), passwordless, SSO (Obj 2.2)', xp: 25 },
+      { text: 'Browser security: HTTPS, certificates, password manager, disable autofill on shared PCs, ad/tracker blockers, sandbox (Obj 2.7)', xp: 25 },
+    ],
+    terms: ['NTFS','share permissions','BitLocker','EFS','UAC','TPM','Windows Hello','SSO','passwordless','HTTPS'],
+    review: 'A folder has both NTFS (Modify) and Share (Read) permissions for a user. What can they do when accessing it across the network? Why?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Windows Security)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 41, week: 6, exam: 'core2',
+    domain: 'Security (28%)',
+    title: 'AI Considerations & Modern Security Practices (NEW in V15)',
+    tasks: [
+      { text: 'AI/ML security: privacy concerns when using AI tools (don\'t paste secrets/PII), data residency, training data exposure (Obj 2.6)', xp: 25 },
+      { text: 'Ethical AI use: hallucinations (LLMs make things up), copyright/IP issues with generated content, attribution (Obj 2.6)', xp: 20 },
+      { text: 'AI in defense: anomaly detection in EDR, phishing classifiers, AI-assisted log analysis (Obj 2.6)', xp: 20 },
+      { text: 'AI in offense: deepfake voice/video (vishing on steroids), AI-generated phishing, automated brute force (Obj 2.6)', xp: 20 },
+      { text: 'Zero Trust principles: never trust, always verify; assume breach; least privilege; micro-segmentation (Obj 2.6)', xp: 30 },
+      { text: 'Mobile security: screen lock (PIN/biometric), remote wipe, locator apps, full-device encryption, app source restriction (Obj 2.9)', xp: 25 },
+      { text: 'Take CrucialExams security practice quiz (Obj 2.6, 2.9)', xp: 25 },
+    ],
+    terms: ['AI hallucination','deepfake','Zero Trust','micro-segmentation','remote wipe','screen lock','full-device encryption'],
+    review: 'A user pastes confidential meeting notes into a public LLM to "summarize." What\'s the risk, and what\'s your guidance to them?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Modern Security)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+      { label: 'CrucialExams — A+ 220-1202 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1202/practice-tests-practice-questions' },
+    ],
+  },
+  {
+    day: 42, week: 6, exam: 'core2',
+    domain: 'Review & Mock',
+    title: 'Week 5-6 Review + 40-Q OS/Security Quiz',
+    tasks: [
+      { text: 'Review all flashcards from Days 29-41: filesystems, Windows tools, Linux commands, malware, social engineering (Obj 1.x, 2.x)', xp: 30 },
+      { text: 'Take a 40-question mixed OS + Security practice exam, time yourself (~40 minutes) (Obj 1.x, 2.x)', xp: 50 },
+      { text: 'For wrong answers, write a 1-line "lesson learned" — track patterns (Obj various)', xp: 25 },
+      { text: 'Re-watch Professor Messer videos for any topics where you missed 2+ questions (Obj various)', xp: 20 },
+      { text: 'Update your personal cheat sheet: ports stay; add malware types, social engineering attacks, MFA factors (Obj various)', xp: 15 },
+    ],
+    terms: ['mixed practice','active review','cheat sheet refinement'],
+    review: 'After this quiz, your weakest of the four Core 2 domains should be clear. Plan tomorrow\'s study around it.',
+    resources: [
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+      { label: 'CrucialExams — A+ 220-1202 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1202/practice-tests-practice-questions' },
+    ],
+  },
+  /* ============================== WEEK 7 ============================== */
+  /* Software Troubleshooting (23%) */
+  {
+    day: 43, week: 7, exam: 'core2',
+    domain: 'Software Troubleshooting (23%)',
+    title: 'Common Windows OS Issues',
+    tasks: [
+      { text: 'BSOD (Blue Screen of Death): note the STOP code, check Event Viewer, recent driver/update, run sfc and DISM (Obj 3.1)', xp: 30 },
+      { text: 'Boot issues: missing boot manager, BCD corruption — use bootrec /fixmbr, /fixboot, /rebuildbcd from Recovery Environment (Obj 3.1)', xp: 25 },
+      { text: 'Slow boot/performance: Task Manager → Startup tab; uninstall bloat; check for malware; SSD health (Obj 3.1)', xp: 25 },
+      { text: 'System lockups, freezing: drivers (especially GPU), overheating, RAM (run mdsched.exe), failing disk (Obj 3.1)', xp: 25 },
+      { text: 'Profile issues: Windows can\'t load profile (corrupt — copy data to new profile); incorrect time (CMOS battery, time service) (Obj 3.1)', xp: 20 },
+      { text: 'Windows Update failures: SoftwareDistribution folder rename trick; DISM /Online /Cleanup-Image /RestoreHealth (Obj 3.1)', xp: 25 },
+    ],
+    terms: ['BSOD','STOP code','BCD','bootrec','sfc','DISM','startup impact','mdsched','profile corruption'],
+    review: 'A user gets BSOD with stop code "DRIVER_IRQL_NOT_LESS_OR_EQUAL" after a Windows Update yesterday. Walk through your top 3 actions in order.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Windows Troubleshooting)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 44, week: 7, exam: 'core2',
+    domain: 'Software Troubleshooting (23%)',
+    title: 'Application & Compatibility Issues',
+    tasks: [
+      { text: 'App won\'t start: missing dependency (.NET, VC++ Redistributables), blocked by Defender/SmartScreen, corrupted install (Obj 3.1)', xp: 25 },
+      { text: 'App crashes: outdated app, OS incompatibility (use Compatibility Mode), conflicting plugins, low RAM/disk (Obj 3.1)', xp: 25 },
+      { text: 'Slow apps: too many startup items, fragmented HDD (defrag — but never on SSD), virus scan, check for updates (Obj 3.1)', xp: 20 },
+      { text: 'License/activation: expired license, hardware change requires re-activation, network license server unreachable (Obj 3.1)', xp: 20 },
+      { text: 'Reboot before reinstalling — many app issues clear after a reboot (Obj 3.1)', xp: 15 },
+      { text: 'Windows Reset/Refresh: in-place repair, keep files vs remove everything (Obj 3.1)', xp: 25 },
+      { text: 'Take CrucialExams Windows troubleshooting practice (Obj 3.1)', xp: 25 },
+    ],
+    terms: ['Compatibility Mode','SmartScreen','VC++ Redistributable','license activation','reset PC','refresh','startup items'],
+    review: 'A legacy in-house app crashes immediately on Windows 11 but worked on Windows 7. What\'s your go-to fix?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Apps)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+      { label: 'CrucialExams — A+ 220-1202 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1202/practice-tests-practice-questions' },
+    ],
+  },
+  {
+    day: 45, week: 7, exam: 'core2',
+    domain: 'Software Troubleshooting (23%)',
+    title: 'Malware Removal — The 7-Step Process',
+    tasks: [
+      { text: 'STEP 1: Investigate and verify malware symptoms — confirm it\'s actually malware, not user error or hardware (Obj 2.10)', xp: 25 },
+      { text: 'STEP 2: Quarantine infected systems — disconnect from network to prevent lateral movement (Obj 2.10)', xp: 25 },
+      { text: 'STEP 3: Disable System Restore (Windows) — prevents malware from being saved in restore points (Obj 2.10)', xp: 20 },
+      { text: 'STEP 4: Remediate — update antimalware definitions, scan and remove using safe boot mode if needed (Obj 2.10)', xp: 25 },
+      { text: 'STEP 5: Schedule scans and run updates — verify protection is current going forward (Obj 2.10)', xp: 20 },
+      { text: 'STEP 6: Enable System Restore and create a restore point — fresh, clean restore baseline (Obj 2.10)', xp: 20 },
+      { text: 'STEP 7: Educate the end user — root cause was likely human action; prevent recurrence (Obj 2.10)', xp: 25 },
+    ],
+    terms: ['7-step removal','quarantine','System Restore','safe boot','antimalware definitions','user education'],
+    review: 'Recite the 7 steps in order without notes. A common exam trap: putting steps out of order — especially Disable Restore (3) BEFORE Remediate (4).',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Malware Removal)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+    quiz: {
+      title: 'Software Troubleshooting Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'In the 7-step malware removal process, which step comes IMMEDIATELY after "Quarantine the infected systems"?',
+          options: ['Educate the end user', 'Disable System Restore', 'Remediate the infected systems', 'Schedule scans and run updates'],
+          answer: 1,
+          explain: 'The order is: 1) Investigate, 2) Quarantine, 3) Disable System Restore, 4) Remediate, 5) Schedule scans/updates, 6) Re-enable System Restore + create restore point, 7) Educate user. Disabling Restore BEFORE remediating prevents malware from hiding in restore points.',
+        },
+        {
+          q: 'A Windows 11 PC fails to boot with "Bootmgr is missing." Which command run from Recovery Environment is MOST appropriate?',
+          options: ['sfc /scannow', 'chkdsk /f', 'bootrec /rebuildbcd', 'DISM /Online /Cleanup-Image'],
+          answer: 2,
+          explain: 'bootrec /rebuildbcd reconstructs the Boot Configuration Data, which is what handles boot-loader selection. sfc and DISM are for OS file integrity (won\'t help if Windows can\'t even boot). chkdsk fixes filesystem errors but not boot manager loss.',
+        },
+        {
+          q: 'Windows Update keeps failing with cryptic errors. Which sequence is the most reliable fix?',
+          options: ['Run sfc /scannow then reboot', 'Stop Windows Update service, rename SoftwareDistribution folder, restart service', 'Reinstall Windows', 'Disable antivirus permanently'],
+          answer: 1,
+          explain: 'The classic fix: net stop wuauserv → rename C:\\Windows\\SoftwareDistribution to .old → net start wuauserv. This forces Windows Update to rebuild its cache. sfc helps with corrupted system files but not WU cache issues.',
+        },
+        {
+          q: 'A user says their Windows PC is "slow." Where do you check FIRST?',
+          options: ['Reinstall Windows', 'Task Manager → Performance tab to identify the bottleneck', 'Run a registry cleaner', 'Replace the CPU'],
+          answer: 1,
+          explain: 'Always identify the bottleneck before acting. Task Manager → Performance shows CPU, RAM, Disk, Network, GPU. "Slow" with 100% disk usage is different from 100% CPU. Don\'t fix what isn\'t broken.',
+        },
+        {
+          q: 'A company\'s legacy CAD app refuses to launch on Windows 11. It worked on Windows 7. What is the QUICKEST first remediation?',
+          options: ['Reinstall Windows 7', 'Right-click → Properties → Compatibility tab → run as Windows 7 SP1', 'Disable Defender', 'Buy a new CAD application'],
+          answer: 1,
+          explain: 'Compatibility Mode runs older apps in a shimmed environment that emulates an older OS version. Often resolves legacy app issues. Reinstalling Windows 7 is destructive and unnecessary. Buying new software might be the long-term answer but isn\'t the quick fix.',
+        },
+      ],
+    },
+  },
+  {
+    day: 46, week: 7, exam: 'core2',
+    domain: 'Software Troubleshooting (23%)',
+    title: 'Mobile OS & Application Issues',
+    tasks: [
+      { text: 'Mobile performance issues: storage full, too many bg apps, OS update needed, malware (less common iOS, more common Android) (Obj 3.4)', xp: 25 },
+      { text: 'Battery drain: app misbehavior (check battery usage settings), bg refresh, location services, brightness, weak signal area (Obj 3.4)', xp: 25 },
+      { text: 'Connectivity: no Wi-Fi (toggle airplane mode, forget+rejoin), no cellular (coverage, SIM seating), Bluetooth pairing failures (Obj 3.4)', xp: 25 },
+      { text: 'Email: cannot decrypt (cert/encryption issue), can\'t connect (server/port/TLS), syncing fails (account auth) (Obj 3.4)', xp: 20 },
+      { text: 'OS update failures: not enough space, weak network, OS too old to skip directly (Obj 3.4)', xp: 15 },
+      { text: 'Crashing apps: clear app cache, reinstall, OS too old or too new, check developer support page (Obj 3.4)', xp: 20 },
+      { text: 'Mobile security issues: leaked credentials, suspicious app permissions, jailbreak/root indicators, unusual data usage (Obj 3.4)', xp: 25 },
+    ],
+    terms: ['mobile battery drain','airplane mode toggle','clear app cache','SIM seating','jailbreak','root','data usage'],
+    review: 'A user\'s phone battery drops 30% per hour even when idle. Walk through your diagnostic steps.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Mobile Issues)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 47, week: 7, exam: 'core2',
+    domain: 'Software Troubleshooting (23%)',
+    title: 'PC Security Issues & SOHO Malware Procedures',
+    tasks: [
+      { text: 'Security symptoms: pop-ups, browser hijack, unwanted toolbars, redirected searches, certificate warnings (Obj 3.3)', xp: 25 },
+      { text: 'Account lockouts: brute-force attempts, password expired, remember to clear cached creds in Credential Manager (Obj 3.2)', xp: 20 },
+      { text: 'Renamed system files: rootkits hide by replacing or hooking system binaries — boot to Linux live USB to scan (Obj 3.2)', xp: 25 },
+      { text: 'Unusual network traffic outbound: malware C2 (command and control), data exfil — disconnect and investigate (Obj 3.2)', xp: 25 },
+      { text: 'SOHO malware procedures: same 7-step process, with extra emphasis on educating non-technical users (Obj 2.10)', xp: 20 },
+      { text: 'Best practices to share with users: don\'t click unknown links, verify before payment, use MFA, enable auto-updates (Obj 2.6)', xp: 25 },
+      { text: 'Take ExamCompass software troubleshooting practice quiz (Obj 3.x)', xp: 25 },
+    ],
+    terms: ['browser hijack','account lockout','rootkit','C2 traffic','data exfiltration','user education'],
+    review: 'A user reports their browser homepage changed and they keep getting redirected. What category of malware is this, and what\'s your remediation order?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Security Issues)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+    ],
+  },
+
+  /* ============================== WEEK 8 ============================== */
+  /* Operational Procedures (21%) + finals */
+  {
+    day: 48, week: 8, exam: 'core2',
+    domain: 'Operational Procedures (21%)',
+    title: 'Documentation, Tickets & Knowledge Bases',
+    tasks: [
+      { text: 'Ticketing: clear subject, clean reproduction steps, severity/priority, affected users, resolution notes — closes the loop (Obj 4.1)', xp: 25 },
+      { text: 'Asset management: hardware/software inventory, asset tags, warranty tracking, license management (Obj 4.1)', xp: 20 },
+      { text: 'Knowledge base (KB) articles: clear title, problem statement, environment, step-by-step solution, related links (Obj 4.1)', xp: 25 },
+      { text: 'Standard Operating Procedures (SOPs): repeatable workflows, onboarding/offboarding checklists (Obj 4.1)', xp: 20 },
+      { text: 'Service Level Agreements (SLAs): uptime promises, response times, escalation paths — what you committed to (Obj 4.1)', xp: 20 },
+      { text: 'Network topology diagrams: physical and logical layouts, data flow, IP plan documentation (Obj 4.1)', xp: 20 },
+      { text: 'Acceptable Use Policy (AUP): what users can/cannot do — must be acknowledged at hire (Obj 4.6)', xp: 15 },
+    ],
+    terms: ['ticket','asset tag','KB article','SOP','SLA','topology diagram','AUP','onboarding','offboarding'],
+    review: 'Why does an SLA matter to a help desk technician? Give one concrete example of how it changes their workflow.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Documentation)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 49, week: 8, exam: 'core2',
+    domain: 'Operational Procedures (21%)',
+    title: 'Change Management & Backup/Recovery',
+    tasks: [
+      { text: 'Change request form: purpose, scope, type (standard/emergency/normal), affected systems (Obj 4.2)', xp: 25 },
+      { text: 'Plan with rollback strategy and backup BEFORE the change. Test in sandbox if possible (Obj 4.2)', xp: 25 },
+      { text: 'Schedule during maintenance windows; respect change freezes; communicate timing to stakeholders (Obj 4.2)', xp: 20 },
+      { text: 'Risk and impact assessment; CAB (Change Advisory Board) approval for high-risk changes (Obj 4.2)', xp: 20 },
+      { text: 'Backup types: full (all data), incremental (changes since last backup), differential (changes since last full) (Obj 4.3)', xp: 30 },
+      { text: 'Backup strategies: 3-2-1 rule (3 copies, 2 different media, 1 offsite); GFS rotation (grandfather-father-son) (Obj 4.3)', xp: 25 },
+      { text: 'Backup testing: untested backups are fiction. Test restore at least quarterly (Obj 4.3)', xp: 20 },
+    ],
+    terms: ['change request','rollback','sandbox','CAB','maintenance window','full backup','incremental','differential','3-2-1 rule','GFS','restore test'],
+    review: 'Without notes: explain the 3-2-1 backup rule. Then explain why you\'d test a restore quarterly even if the backup logs say "success."',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Change/Backup)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 50, week: 8, exam: 'core2',
+    domain: 'Operational Procedures (21%)',
+    title: 'Safety, Environmental & Power',
+    tasks: [
+      { text: 'ESD (Electrostatic Discharge) prevention: anti-static mat, wrist strap (grounded to chassis), ESD bags for components (Obj 4.4)', xp: 25 },
+      { text: 'Equipment safety: lift with legs, secure cables, proper tool selection, eye protection when needed (Obj 4.4)', xp: 15 },
+      { text: 'Electrical safety: never work on live circuits, unplug PSU before opening, capacitors retain charge (CRT/PSU) (Obj 4.4)', xp: 20 },
+      { text: 'Environmental: temperature & humidity (servers like 64-80°F, 40-60% humidity); dust = death by overheating (Obj 4.5)', xp: 20 },
+      { text: 'UPS (battery backup) vs surge protector: UPS gives runtime + battery; surge only protects against spikes (Obj 4.5)', xp: 25 },
+      { text: 'Generator (long-term outages) vs UPS (short-term + clean shutdown bridge to generator) (Obj 4.5)', xp: 20 },
+      { text: 'Disposal: HDDs (degauss/shred for sensitive), batteries (e-waste), toner (recycle), CRTs (special handling — toxic) (Obj 4.5)', xp: 20 },
+    ],
+    terms: ['ESD','wrist strap','UPS','surge protector','generator','degauss','e-waste','capacitor','MSDS','SDS'],
+    review: 'A user asks you to swap RAM. List the three ESD precautions you take BEFORE touching the modules.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Safety)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 51, week: 8, exam: 'core2',
+    domain: 'Operational Procedures (21%)',
+    title: 'Privacy, Licensing, Incident Response, Communication',
+    tasks: [
+      { text: 'PII (Personally Identifiable Information): SSN, DOB, address — handle per policy and regulations (HIPAA, GDPR, etc.) (Obj 4.6)', xp: 25 },
+      { text: 'Data classification: public, internal, confidential, restricted — drives handling rules (Obj 4.6)', xp: 20 },
+      { text: 'Software licensing: per-seat (1 user = 1 license), per-device, concurrent, open source (GPL, MIT, Apache); EULA (Obj 4.6)', xp: 25 },
+      { text: 'Incident response basics: identify scope, preserve evidence (don\'t reboot the affected system!), notify, document, remediate (Obj 4.6)', xp: 30 },
+      { text: 'Chain of custody: track who accessed evidence and when — required for legal admissibility (Obj 4.6)', xp: 20 },
+      { text: 'Communication & professionalism: active listening, avoid jargon, set expectations, follow up, take ownership (Obj 4.7)', xp: 25 },
+      { text: 'Cultural sensitivity, no judgment of user mistakes; clarity over cleverness (Obj 4.7)', xp: 15 },
+    ],
+    terms: ['PII','PHI','HIPAA','GDPR','data classification','EULA','GPL','chain of custody','incident response','active listening'],
+    review: 'A user clicked a phishing link and entered their password. Walk through your IR steps in order — what\'s first, what\'s last?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Operational)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+    quiz: {
+      title: 'Operational Procedures Mini-Quiz (5 Q)',
+      questions: [
+        {
+          q: 'A datacenter loses utility power. The servers continue running for 8 minutes, then shut down cleanly. What equipment did this?',
+          options: ['Surge protector', 'UPS (Uninterruptible Power Supply)', 'PoE injector', 'Smart strip'],
+          answer: 1,
+          explain: 'A UPS provides battery-backed runtime that bridges short outages and signals connected systems to shut down gracefully if the outage continues. Surge protectors only protect against voltage spikes — they have no battery.',
+        },
+        {
+          q: 'A small business follows the 3-2-1 backup rule. Which is a CORRECT example?',
+          options: ['3 backups, all on the same NAS', 'Production, daily snapshot, weekly tape — all in the same room', 'Local copy, NAS copy, cloud copy in different region', 'One backup of three different versions'],
+          answer: 2,
+          explain: '3-2-1 = 3 copies of data, on 2 different media, with 1 copy offsite. Local + NAS (different media) + cloud in another region (offsite) hits all three criteria. Same room ≠ offsite.',
+        },
+        {
+          q: 'A technician needs to ship a hard drive containing PII to a recycler. The drive cannot be reused. Which method is BEST?',
+          options: ['Quick format', 'Multiple-pass overwrite or physical shredding', 'Move files to recycle bin', 'Demagnetize for SSDs'],
+          answer: 1,
+          explain: 'For sensitive data on retired drives: physical destruction (shredding) is the gold standard. Multiple-pass overwrite is acceptable for HDDs. Quick format leaves data recoverable. Degaussing only works on magnetic media (HDDs), NOT SSDs.',
+        },
+        {
+          q: 'During malware investigation, a technician powers off the affected workstation immediately to "stop the spread." What rule did they likely violate?',
+          options: ['Chain of custody', 'Preserving volatile evidence (RAM contents) and incident response procedures', 'Acceptable Use Policy', 'EULA'],
+          answer: 1,
+          explain: 'Powering off destroys volatile evidence (running processes, network connections, encryption keys in RAM). Proper IR: isolate from network (unplug NIC), but keep powered to capture memory if forensics is needed. Always follow your IR plan — don\'t improvise.',
+        },
+        {
+          q: 'A change-management process requires you to schedule a major OS upgrade. What MUST you have ready BEFORE the change window begins?',
+          options: ['User training', 'Backup + rollback plan', 'A new SLA', 'A new EULA'],
+          answer: 1,
+          explain: 'A tested backup plus a documented rollback plan are non-negotiable. If the upgrade goes wrong, you need to restore service quickly. Training and SLAs may be relevant but they don\'t protect you when the change fails.',
+        },
+      ],
+    },
+  },
+  {
+    day: 52, week: 8, exam: 'core2',
+    domain: 'Operational Procedures (21%)',
+    title: 'Scripting Basics & Remote Access',
+    tasks: [
+      { text: 'Why scripting: automate repetitive tasks, mass remediation, basic system info collection — but small risk of errors at scale (Obj 4.8)', xp: 20 },
+      { text: 'PowerShell (.ps1): native to Windows; can manage AD, Exchange, Azure; verbose but powerful (Obj 4.8)', xp: 25 },
+      { text: 'Bash/shell (.sh): macOS, Linux, WSL on Windows; piping, redirection, basic loops (Obj 4.8)', xp: 25 },
+      { text: 'Python (.py): cross-platform, popular, good for scripting and serious automation (Obj 4.8)', xp: 20 },
+      { text: 'Variables, basic loops, error handling — what to look for in a snippet (recognition, not memorization) (Obj 4.8)', xp: 20 },
+      { text: 'Remote access: RDP (Windows GUI, port 3389), SSH (CLI, port 22), VNC (cross-platform GUI), Telnet (insecure, deprecated) (Obj 4.9)', xp: 30 },
+      { text: 'Modern remote tools: TeamViewer, AnyDesk, Microsoft Quick Assist, screen-sharing in Zoom/Teams; VPN for secure access (Obj 4.9)', xp: 25 },
+    ],
+    terms: ['PowerShell','Bash','Python','RDP','SSH','VNC','Telnet','VPN','Quick Assist','TeamViewer'],
+    review: 'You need to remotely fix a Linux server. What protocol/port do you use, and how do you authenticate securely?',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202 (Scripting/Remote)', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+  {
+    day: 53, week: 8, exam: 'core2',
+    domain: 'Review & Mock',
+    title: 'Week 7-8 Review + 30-Q Operational Procedures Quiz',
+    tasks: [
+      { text: 'Review Days 43-52: BSOD steps, malware 7-step, backup rule, ESD, PII, scripting, remote access (Obj 3.x, 4.x)', xp: 30 },
+      { text: 'Take a 30-question Operational Procedures + Software Troubleshooting practice quiz (Obj 3.x, 4.x)', xp: 40 },
+      { text: 'Review wrong answers, write 1-line lessons (Obj various)', xp: 20 },
+      { text: 'Final cheat sheet polish: this is what you carry into the exam day in your head (Obj various)', xp: 25 },
+      { text: 'Light walk through Professor Messer "Pop Quiz" videos for active recall (Obj various)', xp: 15 },
+    ],
+    terms: ['final review','active recall','exam mindset'],
+    review: 'You\'re close. Treat tomorrow and the day after as full mock exams.',
+    resources: [
+      { label: 'Professor Messer — A+ 220-1202', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+      { label: 'CrucialExams — A+ 220-1202 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1202/practice-tests-practice-questions' },
+    ],
+  },
+  {
+    day: 54, week: 8, exam: 'core1',
+    domain: 'Mock Exam',
+    title: 'Final 90-Q Core 1 (220-1201) Mock Exam',
+    tasks: [
+      { text: 'Take a FULL 90-question 220-1201 mock under strict 90-minute conditions. Phone away (Obj all Core 1)', xp: 70 },
+      { text: 'Score yourself. 80%+ = ready. 75-79% = review weakest domain once more. <75% = postpone exam if possible (Obj all Core 1)', xp: 20 },
+      { text: 'Review every wrong answer — re-derive the right answer from first principles (Obj various)', xp: 30 },
+      { text: 'Final mental cheat sheet: ports, RAID, RAM specs, laser steps, OSI/TCP-IP layers (Obj various)', xp: 15 },
+    ],
+    terms: ['full mock','first principles','passing margin'],
+    review: 'Passing on the real exam is 675/900 (~75%). Aim for 80%+ on practice for confidence margin.',
+    resources: [
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+      { label: 'CrucialExams — A+ 220-1201 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1201/practice-tests-practice-questions' },
+      { label: 'CompTIA — Schedule Your Exam', url: 'https://www.comptia.org/certifications/a' },
+    ],
+  },
+  {
+    day: 55, week: 8, exam: 'core2',
+    domain: 'Mock Exam',
+    title: 'Final 90-Q Core 2 (220-1202) Mock Exam',
+    tasks: [
+      { text: 'Take a FULL 90-question 220-1202 mock under strict 90-minute conditions (Obj all Core 2)', xp: 70 },
+      { text: 'Score yourself. 80%+ = ready. 75-79% = review weakest domain. <75% = consider postponing (Obj all Core 2)', xp: 20 },
+      { text: 'Review every wrong answer carefully (Obj various)', xp: 30 },
+      { text: 'Final review: malware 7-step, backup 3-2-1, port numbers, AI/Zero Trust concepts unique to V15 (Obj various)', xp: 15 },
+    ],
+    terms: ['full mock','Core 2 specifics','V15 unique topics'],
+    review: 'Passing for Core 2 is 700/900 (~78%) — slightly higher than Core 1. Aim for 82%+ on practice.',
+    resources: [
+      { label: 'ExamCompass Free Practice Tests', url: 'https://www.examcompass.com/' },
+      { label: 'CrucialExams — A+ 220-1202 Practice', url: 'https://crucialexams.com/exams/comptia/a/220-1202/practice-tests-practice-questions' },
+      { label: 'CompTIA — Schedule Your Exam', url: 'https://www.comptia.org/certifications/a' },
+    ],
+  },
+  {
+    day: 56, week: 8, exam: 'core2',
+    domain: 'Exam Day Prep',
+    title: 'Light Review, Rest & Exam Day',
+    tasks: [
+      { text: 'Light review only — read your one-page mental cheat sheet. No new material (Obj all)', xp: 25 },
+      { text: 'Verify exam logistics: location/online proctor, ID requirements (2 forms — government ID + secondary), arrival time (Obj — admin)', xp: 15 },
+      { text: 'For online proctored: clean desk, single monitor, webcam working, no other people in room, locked door (Obj — admin)', xp: 15 },
+      { text: 'Sleep early. Hydrate. Eat a normal breakfast — don\'t change your routine the morning of the exam (Obj — self-care)', xp: 15 },
+      { text: 'Exam strategy: flag uncertain questions, do easy ones first, return to flags. Don\'t burn 10 min on one PBQ (Obj — strategy)', xp: 25 },
+      { text: 'On the exam: read each question fully. Watch for "EXCEPT," "NOT," "BEST" — they reverse the answer pattern (Obj — strategy)', xp: 15 },
+      { text: 'After: don\'t obsess over what you missed. Take a break. Schedule the second core if you passed the first (Obj — wellness)', xp: 15 },
+    ],
+    terms: ['exam logistics','two forms of ID','online proctor setup','flag-and-return','question-keyword traps'],
+    review: 'On the morning of the exam, your only job is to stay calm and read carefully. You\'ve done the work. Trust it.',
+    resources: [
+      { label: 'CompTIA — Schedule Your Exam', url: 'https://www.comptia.org/certifications/a' },
+      { label: 'Professor Messer — A+ 220-1201', url: 'https://www.professormesser.com/free-a-plus-training/220-1201/220-1201-video/220-1201-training-course/' },
+      { label: 'Professor Messer — A+ 220-1202', url: 'https://www.professormesser.com/free-a-plus-training/220-1202/220-1202-video/220-1202-training-course/' },
+    ],
+  },
+];
+
+/* ---------- STATE ---------- */
+const STORAGE_KEY = 'comptia-a-plus-quest-v1';
+const DEFAULT_STATE = {
+  completed: {},          // { "dayIdx-taskIdx": true }
+  totalXP: 0,
+  streak: 0,
+  lastActiveDate: null,   // ISO date YYYY-MM-DD
+  dailyBonusGiven: {},    // { "YYYY-MM-DD": true }
+  streakBonus7: {},       // { "YYYY-MM-DD": true }
+  achievements: {},       // { "id": true }
+  sessionTaskCount: 0,
+  examDates: { core1: '', core2: '' },
+  expandedDays: {},       // { dayIdx: true }
+  currentWeek: 'all',     // 'all' or 1..8
+  quizScores: {},         // { dayIdx: { score, total, completed } }
+};
+
+let state = loadState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    const parsed = JSON.parse(raw);
+    return Object.assign({}, JSON.parse(JSON.stringify(DEFAULT_STATE)), parsed);
+  } catch (e) {
+    return JSON.parse(JSON.stringify(DEFAULT_STATE));
+  }
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+/* ---------- LEVEL HELPERS ---------- */
+function getCurrentLevel(xp) {
+  let cur = LEVELS[0];
+  for (const lv of LEVELS) {
+    if (xp >= lv.xp) cur = lv; else break;
+  }
+  return cur;
+}
+function getNextLevel(xp) {
+  for (const lv of LEVELS) {
+    if (xp < lv.xp) return lv;
+  }
+  return null; // maxed
+}
+
+/* ---------- DATE HELPERS ---------- */
+function todayISO() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${dd}`;
+}
+function isoToDate(iso) {
+  if (!iso) return null;
+  const parts = iso.split('-');
+  return new Date(+parts[0], +parts[1]-1, +parts[2]);
+}
+function daysBetween(a, b) {
+  return Math.round((b - a) / (1000*60*60*24));
+}
+
+/* ---------- STREAK ---------- */
+function bumpStreakOnTaskComplete() {
+  const today = todayISO();
+  if (state.lastActiveDate === today) {
+    // already active today, no change to streak count
+    return;
+  }
+  if (state.lastActiveDate) {
+    const diff = daysBetween(isoToDate(state.lastActiveDate), isoToDate(today));
+    if (diff === 1) state.streak = (state.streak || 0) + 1;
+    else state.streak = 1;
+  } else {
+    state.streak = 1;
+  }
+  state.lastActiveDate = today;
+
+  // First-task-of-day +10 XP bonus
+  if (!state.dailyBonusGiven[today]) {
+    state.dailyBonusGiven[today] = true;
+    state.totalXP += 10;
+    showToast('+10 XP', 'First task of the day bonus', 'xp');
+  }
+  // 7-day streak bonus +100 XP, awarded once per day reaching multiples of 7
+  if (state.streak > 0 && state.streak % 7 === 0 && !state.streakBonus7[today]) {
+    state.streakBonus7[today] = true;
+    state.totalXP += 100;
+    showToast(`🔥 ${state.streak}-day streak!`, '+100 XP bonus', 'streak');
+  }
+}
+
+/* ---------- TASKS ---------- */
+function taskKey(d, t) { return `${d}-${t}`; }
+
+function toggleTask(dayIdx, taskIdx) {
+  const k = taskKey(dayIdx, taskIdx);
+  const day = DAYS[dayIdx];
+  const task = day.tasks[taskIdx];
+  if (state.completed[k]) {
+    // un-complete
+    delete state.completed[k];
+    state.totalXP = Math.max(0, state.totalXP - (task.xp || 0));
+  } else {
+    state.completed[k] = true;
+    state.totalXP += (task.xp || 0);
+    state.sessionTaskCount = (state.sessionTaskCount || 0) + 1;
+    showToast(`+${task.xp} XP`, task.text.length > 60 ? task.text.slice(0,57)+'…' : task.text, 'xp');
+    bumpStreakOnTaskComplete();
+    checkLevelUp();
+    checkAchievements();
+  }
+  saveState();
+  renderHUD();
+  renderStreakStars();
+  renderAchievements();
+  renderDays();
+}
+
+let _lastLevelNum = null;
+function checkLevelUp() {
+  const cur = getCurrentLevel(state.totalXP);
+  if (_lastLevelNum !== null && cur.num > _lastLevelNum) {
+    showToast(`Level ${cur.num} unlocked!`, cur.name, 'achievement');
+  }
+  _lastLevelNum = cur.num;
+}
+
+/* ---------- ACHIEVEMENTS ---------- */
+function totalTaskCount() {
+  return DAYS.reduce((s, d) => s + d.tasks.length, 0);
+}
+function completedTaskCount() {
+  return Object.keys(state.completed).length;
+}
+function tasksDoneInDomain(domainTest) {
+  let total = 0, done = 0;
+  DAYS.forEach((d, di) => {
+    if (!domainTest(d)) return;
+    d.tasks.forEach((t, ti) => {
+      total++;
+      if (state.completed[taskKey(di, ti)]) done++;
+    });
+  });
+  return { total, done };
+}
+
+function checkAchievements() {
+  const newly = [];
+  const unlock = (id) => {
+    if (!state.achievements[id]) {
+      state.achievements[id] = true;
+      const a = ACHIEVEMENTS.find(x => x.id === id);
+      if (a) newly.push(a);
+    }
+  };
+
+  // First Boot — first task done
+  if (completedTaskCount() >= 1) unlock('first-boot');
+
+  // Hardware Hero — all Week 1 + Week 2 tasks (which are hardware-focused)
+  const hw = tasksDoneInDomain(d => d.week === 1 || d.week === 2);
+  if (hw.total > 0 && hw.done === hw.total) unlock('hardware-hero');
+
+  // Network Ninja — all networking days complete (domain contains "Network" or title contains "Network")
+  const nw = tasksDoneInDomain(d => /network/i.test(d.domain) || /network/i.test(d.title));
+  if (nw.total > 0 && nw.done === nw.total) unlock('network-ninja');
+
+  // Security Sentinel — all security tasks complete
+  const sec = tasksDoneInDomain(d => /security/i.test(d.domain) || /security/i.test(d.title));
+  if (sec.total > 0 && sec.done === sec.total) unlock('security-sentinel');
+
+  // Grinder — 40 tasks total
+  if (completedTaskCount() >= 40) unlock('grinder');
+
+  // Halfway There — 50% overall
+  if (completedTaskCount() >= Math.ceil(totalTaskCount() / 2)) unlock('halfway-there');
+
+  // All Done — every task complete
+  if (completedTaskCount() === totalTaskCount() && totalTaskCount() > 0) unlock('all-done');
+
+  // Focused — 12 tasks in one session
+  if ((state.sessionTaskCount || 0) >= 12) unlock('focused');
+
+  newly.forEach(a => showToast('Achievement unlocked!', `${a.icon} ${a.name}`, 'achievement'));
+  if (newly.length) saveState();
+}
+
+/* ---------- TOASTS ---------- */
+function showToast(title, msg, type='xp') {
+  const stack = document.getElementById('toast-stack');
+  if (!stack) return;
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<div class="toast-title">${title}</div><div class="toast-msg">${msg}</div>`;
+  stack.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateX(20px)'; }, 3500);
+  setTimeout(() => { el.remove(); }, 4200);
+}
+
+/* ---------- RENDER: HUD ---------- */
+function renderHUD() {
+  const cur = getCurrentLevel(state.totalXP);
+  const next = getNextLevel(state.totalXP);
+  document.getElementById('level-num').textContent = cur.num;
+  document.getElementById('level-name').textContent = cur.name;
+  document.getElementById('xp-current').textContent = state.totalXP.toLocaleString();
+  document.getElementById('xp-next').textContent = next ? next.xp.toLocaleString() : 'MAX';
+  document.getElementById('streak-count').textContent = state.streak || 0;
+
+  const fill = document.getElementById('level-fill');
+  if (next) {
+    const span = next.xp - cur.xp;
+    const have = state.totalXP - cur.xp;
+    const pct = Math.max(0, Math.min(100, Math.round((have / span) * 100)));
+    fill.style.width = pct + '%';
+  } else {
+    fill.style.width = '100%';
+  }
+
+  if (_lastLevelNum === null) _lastLevelNum = cur.num;
+}
+
+/* ---------- RENDER: STREAK ---------- */
+function renderStreakStars() {
+  const wrap = document.getElementById('streak-stars');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const lit = Math.min(7, state.streak || 0);
+  for (let i = 0; i < 7; i++) {
+    const s = document.createElement('div');
+    s.className = 'star' + (i < lit ? ' lit' : '');
+    s.textContent = i < lit ? '★' : '☆';
+    wrap.appendChild(s);
+  }
+  document.getElementById('streak-detail').textContent = state.streak || 0;
+}
+
+/* ---------- RENDER: ACHIEVEMENTS ---------- */
+function renderAchievements() {
+  const grid = document.getElementById('achievement-grid');
+  if (!grid) return;
+  grid.innerHTML = ACHIEVEMENTS.map(a => `
+    <div class="achievement${state.achievements[a.id] ? ' unlocked' : ''}">
+      <div class="ach-icon">${a.icon}</div>
+      <div class="ach-name">${a.name}</div>
+      <div class="ach-desc">${a.desc}</div>
+    </div>`).join('');
+}
+
+/* ---------- RENDER: WEEK TABS ---------- */
+function renderWeekTabs() {
+  const wrap = document.getElementById('week-tabs');
+  if (!wrap) return;
+  const weeks = ['all', 1, 2, 3, 4, 5, 6, 7, 8];
+  wrap.innerHTML = weeks.map(w => {
+    const label = w === 'all' ? 'All Days' : `Week ${w}`;
+    const cls = (state.currentWeek === w || (state.currentWeek === 'all' && w === 'all')) ? 'week-pill active' : 'week-pill';
+    return `<button class="${cls}" data-week="${w}">${label}</button>`;
+  }).join('');
+  wrap.querySelectorAll('.week-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const w = btn.dataset.week;
+      state.currentWeek = (w === 'all') ? 'all' : +w;
+      saveState();
+      renderWeekTabs();
+      renderDays();
+    });
+  });
+}
+
+/* ---------- RENDER: DAYS ---------- */
+function dayProgress(dayIdx) {
+  const d = DAYS[dayIdx];
+  const total = d.tasks.length;
+  let done = 0;
+  for (let i = 0; i < total; i++) if (state.completed[taskKey(dayIdx, i)]) done++;
+  return { done, total, pct: total ? Math.round(done/total*100) : 0 };
+}
+
+function renderDays() {
+  const cont = document.getElementById('day-list-container');
+  if (!cont) return;
+  const filter = state.currentWeek;
+  const visible = DAYS.map((d, i) => ({ d, i })).filter(x => filter === 'all' || x.d.week === filter);
+
+  if (!visible.length) {
+    cont.innerHTML = '<div style="padding:20px;color:var(--text-mute);text-align:center">No days in this filter.</div>';
+    return;
+  }
+
+  const html = ['<div class="day-list">'];
+  visible.forEach(({ d, i }) => {
+    const prog = dayProgress(i);
+    const expanded = !!state.expandedDays[i];
+    const examLabel = d.exam === 'core1' ? 'Core 1 · 220-1101' : 'Core 2 · 220-1102';
+    const dayXP = d.tasks.reduce((s,t) => s + (t.xp||0), 0);
+    const completeClass = (prog.done === prog.total && prog.total > 0) ? ' complete' : '';
+    html.push(`
+      <div class="day ${d.exam}${completeClass}${expanded ? ' expanded' : ''}" data-idx="${i}">
+        <div class="day-header" data-toggle="${i}">
+          <div class="day-num">D${d.day}</div>
+          <div class="day-info">
+            <div class="day-title">${escapeHTML(d.title)}</div>
+            <div class="day-meta">
+              <span class="domain">${escapeHTML(d.domain)}</span>
+              <span>${examLabel}</span>
+              <span class="xp-badge">${dayXP} XP avail</span>
+              <span>${prog.done}/${prog.total} tasks</span>
+            </div>
+          </div>
+          <div class="day-progress-mini">${prog.pct}%</div>
+          <div class="day-toggle">▶</div>
+        </div>
+        <div class="day-body">
+          ${renderDayBody(d, i)}
+        </div>
+      </div>`);
+  });
+  html.push('</div>');
+  cont.innerHTML = html.join('');
+
+  // wire up toggle
+  cont.querySelectorAll('.day-header').forEach(h => {
+    h.addEventListener('click', (e) => {
+      // ignore if clicked inside a checklist
+      const idx = +h.dataset.toggle;
+      state.expandedDays[idx] = !state.expandedDays[idx];
+      saveState();
+      renderDays();
+    });
+  });
+  // wire up checklist
+  cont.querySelectorAll('.check-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const di = +item.dataset.day;
+      const ti = +item.dataset.task;
+      toggleTask(di, ti);
+    });
+  });
+  // wire up quiz launch
+  cont.querySelectorAll('[data-quiz-day]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openQuiz(+btn.dataset.quizDay);
+    });
+  });
+  // prevent body click bubbling (so clicking inside body doesn't collapse)
+  cont.querySelectorAll('.day-body').forEach(b => {
+    b.addEventListener('click', e => e.stopPropagation());
+  });
+}
+
+function renderDayBody(d, dayIdx) {
+  const parts = [];
+
+  // Tasks
+  parts.push('<div class="day-section">');
+  parts.push('<h4><span class="dot"></span> Today\'s Tasks</h4>');
+  parts.push('<ul class="checklist">');
+  d.tasks.forEach((t, ti) => {
+    const done = !!state.completed[taskKey(dayIdx, ti)];
+    parts.push(`
+      <li class="check-item${done ? ' done' : ''}" data-day="${dayIdx}" data-task="${ti}">
+        <div class="checkbox"></div>
+        <div class="check-text">${escapeHTML(t.text)}</div>
+        <div class="check-xp">+${t.xp} XP</div>
+      </li>`);
+  });
+  parts.push('</ul></div>');
+
+  // Key Terms
+  if (d.terms && d.terms.length) {
+    parts.push('<div class="day-section"><h4><span class="dot"></span> Key Terms</h4>');
+    parts.push('<div class="terms">');
+    d.terms.forEach(t => parts.push(`<span class="term">${escapeHTML(t)}</span>`));
+    parts.push('</div></div>');
+  }
+
+  // Review Loop
+  if (d.review) {
+    parts.push(`
+      <div class="day-section">
+        <div class="review-loop">
+          <span class="label-pill">Review Loop</span>
+          ${escapeHTML(d.review)}
+        </div>
+      </div>`);
+  }
+
+  // Resources
+  if (d.resources && d.resources.length) {
+    parts.push('<div class="day-section"><h4><span class="dot"></span> Free Resources</h4>');
+    parts.push('<ul class="resources">');
+    d.resources.forEach(r => {
+      parts.push(`<li><a href="${escapeAttr(r.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--text);text-decoration:underline;text-decoration-color:var(--core1);text-underline-offset:3px">${escapeHTML(r.label)}</a></li>`);
+    });
+    parts.push('</ul></div>');
+  }
+
+  // Quiz
+  if (d.quiz) {
+    const qs = state.quizScores[dayIdx];
+    const scoreLine = qs ? ` · Best: ${qs.score}/${qs.total}` : '';
+    parts.push(`
+      <div class="day-section">
+        <div class="quiz-launch">
+          <div class="quiz-info">
+            <div class="lbl">Mini-Quiz${scoreLine}</div>
+            <div class="ttl">${escapeHTML(d.quiz.title)}</div>
+          </div>
+          <button class="btn btn-trouble" data-quiz-day="${dayIdx}">Start Quiz</button>
+        </div>
+      </div>`);
+  }
+
+  return parts.join('');
+}
+
+/* ---------- QUIZ ---------- */
+let _quiz = null;
+
+function openQuiz(dayIdx) {
+  const d = DAYS[dayIdx];
+  if (!d.quiz) return;
+  _quiz = {
+    dayIdx,
+    title: d.quiz.title,
+    questions: d.quiz.questions,
+    qIdx: 0,
+    selections: [],
+    score: 0,
+  };
+  document.getElementById('quiz-modal').classList.add('show');
+  document.getElementById('quiz-title').textContent = d.quiz.title;
+  renderQuizQ();
+}
+
+function closeQuiz() {
+  document.getElementById('quiz-modal').classList.remove('show');
+  _quiz = null;
+}
+
+function renderQuizQ() {
+  if (!_quiz) return;
+  const body = document.getElementById('quiz-body');
+  const total = _quiz.questions.length;
+  if (_quiz.qIdx >= total) {
+    renderQuizResults();
+    return;
+  }
+  const q = _quiz.questions[_quiz.qIdx];
+  body.innerHTML = `
+    <div class="quiz-progress">Question ${_quiz.qIdx + 1} of ${total}</div>
+    <div class="quiz-q">${escapeHTML(q.q)}</div>
+    <div class="quiz-options">
+      ${q.options.map((opt, i) => `<div class="quiz-opt" data-opt="${i}">${escapeHTML(opt)}</div>`).join('')}
+    </div>
+    <div class="quiz-explain" id="quiz-explain"></div>
+    <div class="quiz-actions">
+      <button class="btn btn-ghost" id="quiz-skip">Skip</button>
+      <button class="btn" id="quiz-next" style="display:none">Next ▶</button>
+    </div>
+  `;
+  body.querySelectorAll('.quiz-opt').forEach(el => {
+    el.addEventListener('click', () => selectQuizOpt(+el.dataset.opt));
+  });
+  document.getElementById('quiz-skip').addEventListener('click', () => {
+    _quiz.qIdx++;
+    renderQuizQ();
+  });
+  document.getElementById('quiz-next').addEventListener('click', () => {
+    _quiz.qIdx++;
+    renderQuizQ();
+  });
+}
+
+function selectQuizOpt(i) {
+  if (!_quiz) return;
+  const q = _quiz.questions[_quiz.qIdx];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.classList.add('disabled'));
+  opts.forEach(o => {
+    const idx = +o.dataset.opt;
+    if (idx === q.answer) o.classList.add('correct');
+    if (idx === i && i !== q.answer) o.classList.add('wrong');
+  });
+  if (i === q.answer) _quiz.score++;
+  _quiz.selections.push(i);
+  const exp = document.getElementById('quiz-explain');
+  exp.innerHTML = `<strong>${i === q.answer ? 'Correct.' : 'Not quite.'}</strong> ${escapeHTML(q.explain)}`;
+  exp.classList.add('show');
+  document.getElementById('quiz-skip').style.display = 'none';
+  document.getElementById('quiz-next').style.display = '';
+}
+
+function renderQuizResults() {
+  const body = document.getElementById('quiz-body');
+  const total = _quiz.questions.length;
+  const score = _quiz.score;
+  const pct = Math.round(score/total*100);
+  let verdict = 'Keep grinding — review the explanations and run it back.';
+  if (pct >= 80) verdict = 'Solid. Lock this in and move on.';
+  else if (pct >= 60) verdict = 'Decent. Re-read the misses and you\'ll have it.';
+
+  // Save best score & award bonus XP if first 80%+
+  const dIdx = _quiz.dayIdx;
+  const prev = state.quizScores[dIdx];
+  const isNewBest = !prev || score > prev.score;
+  state.quizScores[dIdx] = { score, total, completed: true, when: todayISO() };
+  let bonusMsg = '';
+  if (isNewBest && pct >= 80) {
+    state.totalXP += 25;
+    bonusMsg = ' (+25 XP awarded)';
+    showToast('+25 XP', `Quiz score ${score}/${total}`, 'xp');
+  }
+  saveState();
+
+  body.innerHTML = `
+    <div class="quiz-results">
+      <div class="score-num">${score}/${total}</div>
+      <div class="score-label">${pct}% — Score${bonusMsg}</div>
+      <div class="verdict">${verdict}</div>
+      <div class="quiz-actions" style="justify-content:center;margin-top:18px">
+        <button class="btn btn-ghost" id="quiz-retry">Retry</button>
+        <button class="btn" id="quiz-done">Done</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('quiz-retry').addEventListener('click', () => openQuiz(_quiz.dayIdx));
+  document.getElementById('quiz-done').addEventListener('click', closeQuiz);
+
+  renderHUD();
+  renderDays();
+}
+
+/* ---------- EXAM DATES ---------- */
+function renderExamDates() {
+  const e1 = document.getElementById('exam1-date');
+  const e2 = document.getElementById('exam2-date');
+  e1.value = state.examDates.core1 || '';
+  e2.value = state.examDates.core2 || '';
+  updateCountdowns();
+}
+
+function updateCountdowns() {
+  const today = isoToDate(todayISO());
+  ['core1', 'core2'].forEach((key, idx) => {
+    const el = document.getElementById(idx === 0 ? 'exam1-countdown' : 'exam2-countdown');
+    const iso = state.examDates[key];
+    if (!iso) {
+      el.textContent = 'No date set';
+      return;
+    }
+    const target = isoToDate(iso);
+    const diff = daysBetween(today, target);
+    if (diff > 1) el.innerHTML = `<strong>${diff}</strong> days to go`;
+    else if (diff === 1) el.innerHTML = `<strong>1</strong> day to go`;
+    else if (diff === 0) el.innerHTML = `<strong>Today!</strong> Good luck.`;
+    else el.innerHTML = `<strong>Past</strong> · ${Math.abs(diff)}d ago`;
+  });
+  updatePacingNote();
+}
+
+function updatePacingNote() {
+  const note = document.getElementById('pacing-note');
+  if (!note) return;
+  const today = isoToDate(todayISO());
+  const lines = [];
+  ['core1', 'core2'].forEach(key => {
+    const iso = state.examDates[key];
+    if (!iso) return;
+    const target = isoToDate(iso);
+    const diff = daysBetween(today, target);
+    const label = key === 'core1' ? 'Core 1 (220-1101)' : 'Core 2 (220-1102)';
+    if (diff > 0) {
+      const pace = (28 / diff).toFixed(1);
+      lines.push(`<strong>${label}</strong>: ${diff}d out · target ${pace} day(s)/calendar day`);
+    } else if (diff === 0) {
+      lines.push(`<strong>${label}</strong>: Exam day — review only.`);
+    } else {
+      lines.push(`<strong>${label}</strong>: Past scheduled date.`);
+    }
+  });
+  if (!lines.length) {
+    note.innerHTML = '📅 <strong>Set your exam dates above</strong> to get a recommended pacing target.';
+  } else {
+    note.innerHTML = '🎯 ' + lines.join(' &nbsp;·&nbsp; ');
+  }
+}
+
+/* ---------- UTIL ---------- */
+function escapeHTML(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s) { return escapeHTML(s); }
+
+/* ---------- WIRE UP ---------- */
+function wireGlobalEvents() {
+  document.getElementById('exam1-date').addEventListener('change', e => {
+    state.examDates.core1 = e.target.value;
+    saveState();
+    updateCountdowns();
+  });
+  document.getElementById('exam2-date').addEventListener('change', e => {
+    state.examDates.core2 = e.target.value;
+    saveState();
+    updateCountdowns();
+  });
+  document.getElementById('quiz-close').addEventListener('click', closeQuiz);
+  document.getElementById('quiz-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'quiz-modal') closeQuiz();
+  });
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    if (window.confirm('Reset ALL progress? This wipes XP, streak, achievements, completed tasks, exam dates, and quiz scores. Cannot be undone.')) {
+      localStorage.removeItem(STORAGE_KEY);
+      window.location.reload();
+    }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && _quiz) closeQuiz();
+  });
+}
+
+/* ---------- INIT ---------- */
+function init() {
+  state.sessionTaskCount = 0; // reset per session
+  renderHUD();
+  renderStreakStars();
+  renderAchievements();
+  renderWeekTabs();
+  renderDays();
+  renderExamDates();
+  wireGlobalEvents();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+</script>
+</body>
+</html>
